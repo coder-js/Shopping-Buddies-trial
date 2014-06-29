@@ -1,5 +1,5 @@
 var x = document.getElementById("fav_gps");
-
+console.loh("inside geo.js");
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition);

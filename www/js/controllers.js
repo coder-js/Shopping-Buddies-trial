@@ -33,6 +33,9 @@ angular.module('starter.controllers', [])
   };
 })
 
+
+
+
 .controller('myTripsCtrl', function($scope) {
   $scope.myTrips = [
     { title: 'A', id: 1 },
@@ -47,3 +50,27 @@ angular.module('starter.controllers', [])
 .controller('myTripCtrl', function($scope, $stateParams) {
   $scope.name=$stateParams.myTripId;
 })
+
+
+//controller for login!
+var LoginCtrl = function ($scope, $facebook) {
+  $scope.isLoggedIn = false;
+  $scope.login = function() {
+    $facebook.login().then(function() {
+      refresh();
+    });
+  }
+  function refresh() {
+    $facebook.api("/me").then( 
+      function(response) {
+        $scope.welcomeMsg = "Welcome " + response.name;
+
+        $scope.isLoggedIn = true;
+      },
+      function(err) {
+        //if not logged in - displaying no text
+      });
+  }
+  
+  refresh();
+};

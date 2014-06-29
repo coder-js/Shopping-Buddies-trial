@@ -1,3 +1,5 @@
+console.log("in pic.js");
+
 (function () {
     var takePicture = document.querySelector("#take-pic"),
         showPicture = document.querySelector("#show-pic");
