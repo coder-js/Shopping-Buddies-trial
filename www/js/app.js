@@ -36,6 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
      firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
    }());
 
+    
  
 })
 
@@ -67,6 +68,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
         'menuContent' :{
           templateUrl: "templates/logout.html",
           controller: 'LogoutCtrl'
+        }
+      }
+    })
+
+    .state('app.defaultPage', {
+      url: "/defaultPage",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/defaultPage.html"
         }
       }
     })

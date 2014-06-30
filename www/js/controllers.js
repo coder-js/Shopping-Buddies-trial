@@ -54,6 +54,7 @@ angular.module('starter.controllers', [])
 
 //controller for login!
 var LoginCtrl = function ($scope, $facebook) {
+
   $scope.isLoggedIn = false;
   $scope.login = function() {
     $facebook.login().then(function() {
@@ -63,9 +64,11 @@ var LoginCtrl = function ($scope, $facebook) {
   function refresh() {
     $facebook.api("/me").then( 
       function(response) {
-        $scope.welcomeMsg = "Welcome " + response.name;
-
+        //$scope.welcomeMsg = response;
+        console.log(response);
         $scope.isLoggedIn = true;
+        console.log("redirecting...");
+        window.location.href = "#/app/defaultPage";
       },
       function(err) {
         //if not logged in - displaying no text
@@ -73,4 +76,15 @@ var LoginCtrl = function ($scope, $facebook) {
   }
   
   refresh();
+};
+
+
+var LogoutCtrl = function($scope, $facebook){
+  console.log("trying to log out");
+  $scope.logout = function(){
+    $facebook.logout(function(){
+        $scope.isLoggedIn = false;
+    });
+  }
+  console.log($scope.isLoggedIn);
 };
