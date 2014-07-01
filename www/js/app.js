@@ -36,7 +36,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
      firstScriptElement.parentNode.insertBefore(facebookJS, firstScriptElement);
    }());
 
-    
+
  
 })
 
@@ -49,7 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       url: "/app",
       abstract: true,
       templateUrl: "templates/menu.html",
-      controller: 'AppCtrl'
+      //controller: 'AppCtrl'
     })
 
     .state('app.login', {   //to be made
@@ -139,7 +139,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       url: "/myFav",
       views: {
         'menuContent' :{
-          templateUrl: "templates/myFav.html"
+          templateUrl: "templates/myFav.html",
+
         }
       }
     })
@@ -149,6 +150,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       views: {
         'menuContent' :{
           templateUrl: "templates/addFav.html"
+          //controller: 'AddFavCtrl'
         }
       }
     });

@@ -1,4 +1,5 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic'])
+
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
   // Form data for the login modal
@@ -51,40 +52,75 @@ angular.module('starter.controllers', [])
   $scope.name=$stateParams.myTripId;
 })
 
+var isLoggedIn;
 
 //controller for login!
 var LoginCtrl = function ($scope, $facebook) {
 
-  $scope.isLoggedIn = false;
+  var accessToken;
+  isLoggedIn = false;
+  console.log("is logged in: " +isLoggedIn);
+  
   $scope.login = function() {
-    $facebook.login().then(function() {
+    $facebook.login().then(function(response) {
+      console.log("logging in response:");
+      console.log(response);
+      console.log("access token: ");
+      console.log(response.authResponse.accessToken);
+      accessToken = response.authResponse.accessToken;
       refresh();
-    });
+    },
+    {scope: 'read_friendlists'});
+    
   }
   function refresh() {
     $facebook.api("/me").then( 
       function(response) {
         //$scope.welcomeMsg = response;
         console.log(response);
-        $scope.isLoggedIn = true;
+        isLoggedIn = true;
         console.log("redirecting...");
         window.location.href = "#/app/defaultPage";
+        
       },
       function(err) {
         //if not logged in - displaying no text
       });
-  }
-  
-  refresh();
+
+    /*$facebook.api("/me/permissions/public_profile").then(
+      function(response){
+        console.log("friends");
+        console.log(response);
+      }); */
+  }  
+
 };
 
 
 var LogoutCtrl = function($scope, $facebook){
-  console.log("trying to log out");
+  
   $scope.logout = function(){
-    $facebook.logout(function(){
-        $scope.isLoggedIn = false;
+    console.log("trying to log out");
+   // window.close();
+    $facebook.logout(function(response){
+        console.log(response);
+        isLoggedIn = false;
+        console.log("isLoggedIn: "+isLoggedIn);
     });
   }
-  console.log($scope.isLoggedIn);
+
+  $scope.back = function(){
+    window.location.href= "#/app/defaultPage";
+  }
+  
 };
+
+
+//not working
+var AddFavCtrl = function($scope){
+  $scope.addPic = function(){
+    console.log('pic');
+  }
+};
+
+

@@ -5,10 +5,11 @@
 <ion-view title="Login" style="background-image:url('../img/bgImgShop.jpg'); background-position: center bottom;" hide-nav-bar="true">
 
     <ion-content class="has-header">
-        {{welcomeMsg}}
         <div>
-            <img src= "../img/logo-sb.jpg" align='center' width =100% height=10%>
+            <img src= "../img/logo-sb.jpg" align='center' width =100% >
         </div>
+
+        <div class="fb-login-button"></div>
 
         <div class="list list-inset">
             <button class="button button-block button-positive" ng-click="login()">
@@ -18,11 +19,11 @@
         </div>
 
         <div class="list list-inset">
-            <button class="button button-block button-royal" ng-click=""> <!-- to be filled -->
-                <i class="icon ion-social-facebook"></i>
-                &nbsp;New Shopaholic?
+            <button class="button button-block button-royal" ng-click=""> 
+                &nbsp;New Shopaholic? A quick tour?  <!-- about the app?? -->
             </button>
         </div>
+    
     </ion-content>
 
 </ion-view>

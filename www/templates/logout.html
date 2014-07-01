@@ -1,10 +1,21 @@
 <div class="bar bar-header bar-royal">
-  <h1 class="title">LOGGED OUT!</h1>
+  <h1 class="title">LOGGING OUT?</h1>
 </div>
 
-<ion-view title="Logged out" style="background-image:url('../img/bgImgShop.jpg'); background-position: center bottom;" onload="logout();">
+<ion-view title="Logged out" style="background-image:url('../img/bgImgShop.jpg'); background-position: center bottom;">
   <ion-content class="has-header">
-    <h1>You are now logged out of Shopping Buddies!</h1>
+    <h1><center>Are you sure you want to log out?</center></h1>
+    <br><br>
+    
+    <button class="button button-block icon-left ion-chevron-left button-calm" ng-click="back()" >
+               Nah! I'll Stay!
+    </button>
+    <button class="button button-block icon-right ion-chevron-right button-assertive" ng-click="logout()" >
+                Log out
+    </button>
+    
+   <!-- <button onclick="logout();">Log out</button>
+    <button onclick="location.href='#/app/defaultPage'">Nah I'll stay</button> -->
  </ion-content>
 </ion-view>
 
