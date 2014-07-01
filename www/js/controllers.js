@@ -34,41 +34,56 @@ angular.module('starter.controllers', ['ionic'])
   };
 })
 
+
 .controller('newTripCtrl', function($scope, $http, sharedProperties){
+
+  var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
 
   console.log('in newTripCtrl');
   $scope.createTrip = function(trip){
     
-    //createTrip.tripId = ++createTrip.tripId || 1;
+    console.log(trip);
 
-    console.log(trip + createTrip.tripId);
-
-    /*$http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', params:{"userId":2,"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
+    /*
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', params:{"userId":2,"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(params));
       window.location.href="#/app/defaultPage";
     }).
     error(function(data,status,headers,config){
       console.log("ERROR : "+angular.toJson(params));
-    }); */
-    
-    localStorage.setItem('trip'+createTrip.tripId, angular.toJson(trip));
-    
+    });  */
+
+    $scope.Trips.push({
+      id:sharedProperties.getTripId(),
+      trip_name:trip.name,
+      trip_occasion:trip.occasion,
+      trip_venue:trip.venue,
+      trip_date:trip.date,
+      trip_time:trip.timing,
+      trip_meetup:trip.meetup,
+      trip_duration:trip.duration
+    });
+    sharedProperties.setTripId();
+    window.localStorage.setItem('Trips', angular.toJson(Trips));
+
+
     window.location.href="#/app/defaultPage";
+
   };
+
 
 })
 
 
+
 .controller('myTripsCtrl', function($scope, sharedProperties) {
-  $scope.myTrips = [
-    { name: 'A', id: 1 },
-    { name: 'C', id: 2 },
-    { name: 'D', id: 3 },
-    { name: 'I', id: 4 },
-    { name: 'R', id: 5 },
-    { name: 'W', id: 6 }
-  ];
+    
+   /* $scope.getMyTrips = function(){
+      $scope.myTrips = localStorage.getItem('Trips');
+      console.log($scope.myTrips);
+    }; */
+    
 })
 
 .controller('myTripCtrl', function($scope, $stateParams, sharedProperties) {
@@ -79,6 +94,7 @@ angular.module('starter.controllers', ['ionic'])
 
   var baseUrl = "https://nodejs-shoppingbuddies.rhcloud.com";
   var userId; 
+  var tripId = 1;
 
   return {
         getUserId: function() {
@@ -89,6 +105,12 @@ angular.module('starter.controllers', ['ionic'])
         },
         setUserId: function(value) {
             userId = value;
+        },
+        getTripId: function() {
+            return tripId;
+        },
+        setTripId: function() {
+            tripId = tripId+1;
         }
     }
 
@@ -126,14 +148,14 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
         console.log(sharedProperties.getUserId());
         console.log("creating a new user account in shopping buddies DB");
 
-        $http({method: 'POST', url:sharedProperties.getBaseUrl()+"/createTrip", params:{"userId":sharedProperties.getUserId()},data:{"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
+        /*$http({method: 'POST', url:sharedProperties.getBaseUrl()+"/createTrip", params:{"userId":sharedProperties.getUserId()},data:{"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
         success(function(data,status,headers,config){
           console.log("SUCCESS : "+JSON.stringify(data));
           window.location.href="#/app/defaultPage";
         }).
         error(function(data,status,headers,config){
           console.log("ERROR : "+JSON.stringify(data));
-        });
+        });*/
 
         window.location.href = "#/app/defaultPage";
         
