@@ -6,10 +6,22 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var serve = require('gulp-serve');
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
+
+
+gulp.task('serve', serve('public'));
+gulp.task('serve-build', serve(['public', 'build']));
+gulp.task('serve-prod', serve({
+    root: ['public', 'build'],
+    port: 8100,
+    middleware: function(req, res) {
+        // custom optional middleware
+    }
+}));
 
 gulp.task('default', ['sass']);
 
