@@ -1,4 +1,7 @@
-/* Empty. Add your own CSS if you like */
+h1, h2, h3, h4, h5, .tab-item,a.item-content, input, button, select,textarea {
+	font-family: 'Trebuchet MS',sans-serif;
+}
+
 .wrap {
    overflow: hidden;
    margin: 10px;
