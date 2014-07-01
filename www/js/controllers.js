@@ -39,7 +39,7 @@ angular.module('starter.controllers', ['ionic'])
 
   var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
 
-  console.log('in newTripCtrl');
+  console.log('creating new trip');
   $scope.createTrip = function(trip){
     
     console.log(trip);
@@ -78,11 +78,9 @@ angular.module('starter.controllers', ['ionic'])
 
 
 .controller('myTripsCtrl', function($scope, sharedProperties) {
-    
-   /* $scope.getMyTrips = function(){
-      $scope.myTrips = localStorage.getItem('Trips');
-      console.log($scope.myTrips);
-    }; */
+      console.log("all trips:");
+      var myTrips = localStorage.getItem('Trips');
+      console.log(JSON.parse(myTrips)); 
     
 })
 
