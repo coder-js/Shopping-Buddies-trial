@@ -15,7 +15,7 @@ angular.module('starter.controllers', ['ionic'])
   // Triggered in the login modal to close it
   $scope.closeLogin = function() {
     $scope.modal.hide();
-  },
+  };
 
   // Open the login modal
   $scope.login = function() {
@@ -34,28 +34,70 @@ angular.module('starter.controllers', ['ionic'])
   };
 })
 
+.controller('newTripCtrl', function($scope, $http, sharedProperties){
+
+  console.log('in newTripCtrl');
+  $scope.createTrip = function(trip){
+    
+    //createTrip.tripId = ++createTrip.tripId || 1;
+
+    console.log(trip + createTrip.tripId);
+
+    /*$http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', params:{"userId":2,"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
+    success(function(data,status,headers,config){
+      console.log("SUCCESS : "+angular.toJson(params));
+      window.location.href="#/app/defaultPage";
+    }).
+    error(function(data,status,headers,config){
+      console.log("ERROR : "+angular.toJson(params));
+    }); */
+    
+    localStorage.setItem('trip'+createTrip.tripId, angular.toJson(trip));
+    
+    window.location.href="#/app/defaultPage";
+  };
+
+})
 
 
-
-.controller('myTripsCtrl', function($scope) {
+.controller('myTripsCtrl', function($scope, sharedProperties) {
   $scope.myTrips = [
-    { title: 'A', id: 1 },
-    { title: 'C', id: 2 },
-    { title: 'D', id: 3 },
-    { title: 'I', id: 4 },
-    { title: 'R', id: 5 },
-    { title: 'W', id: 6 }
+    { name: 'A', id: 1 },
+    { name: 'C', id: 2 },
+    { name: 'D', id: 3 },
+    { name: 'I', id: 4 },
+    { name: 'R', id: 5 },
+    { name: 'W', id: 6 }
   ];
 })
 
-.controller('myTripCtrl', function($scope, $stateParams) {
+.controller('myTripCtrl', function($scope, $stateParams, sharedProperties) {
   $scope.name=$stateParams.myTripId;
+})
+
+.service('sharedProperties', function(){
+
+  var baseUrl = "https://nodejs-shoppingbuddies.rhcloud.com";
+  var userId; 
+
+  return {
+        getUserId: function() {
+            return userId;
+        },
+        getBaseUrl: function() {
+            return baseUrl;
+        },
+        setUserId: function(value) {
+            userId = value;
+        }
+    }
+
 })
 
 var isLoggedIn;
 
 //controller for login!
-var LoginCtrl = function ($scope, $facebook) {
+var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
 
   var accessToken;
   isLoggedIn = false;
@@ -79,7 +121,20 @@ var LoginCtrl = function ($scope, $facebook) {
         //$scope.welcomeMsg = response;
         console.log(response);
         isLoggedIn = true;
-        console.log("redirecting...");
+        console.log("redirecting...setting userId as 573");
+        sharedProperties.setUserId(573);
+        console.log(sharedProperties.getUserId());
+        console.log("creating a new user account in shopping buddies DB");
+
+        $http({method: 'POST', url:sharedProperties.getBaseUrl()+"/createTrip", params:{"userId":sharedProperties.getUserId()},data:{"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
+        success(function(data,status,headers,config){
+          console.log("SUCCESS : "+JSON.stringify(data));
+          window.location.href="#/app/defaultPage";
+        }).
+        error(function(data,status,headers,config){
+          console.log("ERROR : "+JSON.stringify(data));
+        });
+
         window.location.href = "#/app/defaultPage";
         
       },
@@ -101,7 +156,7 @@ var LogoutCtrl = function($scope, $facebook){
   
   $scope.logout = function(){
     console.log("trying to log out");
-   // window.close();
+    isLoggedIn = false;
     $facebook.logout(function(response){
         console.log(response);
         isLoggedIn = false;
@@ -117,7 +172,7 @@ var LogoutCtrl = function($scope, $facebook){
 
 
 //not working
-var AddFavCtrl = function($scope){
+var AddFavCtrl = function($scope, sharedProperties){
   $scope.addPic = function(){
     console.log('pic');
   }

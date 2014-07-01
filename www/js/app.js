@@ -4,6 +4,10 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
+
+//var baseUrl = nodejs-shoppingbuddies.rhcloud.com;
+
+
 angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
 
 .run(function($ionicPlatform) {
@@ -107,7 +111,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       views: {
         'menuContent' :{
           templateUrl: "templates/newTrip.html",
-          //controller: 'PlaylistsCtrl'
+          controller: 'newTripCtrl'
         }
       }
     })
@@ -156,4 +160,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
     });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/login');
-});
+})
+
+;
