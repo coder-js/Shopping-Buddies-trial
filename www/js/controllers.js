@@ -3,10 +3,10 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('AppCtrl', function($scope, sharedProperties) {
   
-
   $scope.loginName = sharedProperties.getUserName();
+  
   $scope.loginDP = sharedProperties.getUserDP();
-
+  
 })
 
 //----------------------------------------------------------------------------------------------------------------------------------------
@@ -28,7 +28,7 @@ angular.module('starter.controllers', ['ionic'])
     $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"friends":"","venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
-      alert(trip.name+" trip created!");
+      alert(trip.trip_name+" trip created!");
       window.location.href="#/app/defaultPage";
     }).
     error(function(data,status,headers,config){
@@ -58,17 +58,20 @@ angular.module('starter.controllers', ['ionic'])
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
 .controller('myTripsCtrl', function($scope, $http, sharedProperties) {
+  
+    $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
+    
+    //console.log("# of myTrips: " +Object.keys($scope.myTrips).length);
 
-    $scope.myTrips = sharedProperties.getMyTrips();
     $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
     success(function(data,status,headers,config){
       console.log("SUCCESS: "+angular.toJson(data));
       sharedProperties.setMyTrips(data);
-      $scope.myTrips = sharedProperties.getMyTrips();
+      $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
       console.log("refreshed: "+$scope.myTrips);
     }).
     error(function(data,status,headers,config){
-      console.log("ERROR: "+angular.toJson(data));
+      console.log("ERROR: " + angular.toJson(data));
     });
     
     /*HARD CODED
@@ -129,12 +132,12 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('pastTripsCtrl', function($http, $scope, $stateParams, sharedProperties) {
     
-    $scope.pastTrips = sharedProperties.getPastTrips();
+    $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
     $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=1'}).
     success(function(data,status,headers,config){
       console.log("SUCCESS: "+angular.toJson(data));
       sharedProperties.setPastTrips(data);
-      $scope.pastTrips = sharedProperties.getPastTrips();
+      $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
       
     }).
     error(function(data,status,headers,config){
@@ -147,7 +150,38 @@ angular.module('starter.controllers', ['ionic'])
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 .controller('myTripCtrl', function($scope, $stateParams, sharedProperties) {
-  $scope.name=$stateParams.myTripId;
+  
+  $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
+  
+  var init = function(){
+    for(var i=0; i<Object.keys($scope.myTrips).length ; i+=1){
+      if($scope.myTrips[i].tripId == $stateParams.myTripId){
+        $scope.trip=$scope.myTrips[i];
+        break;
+      }
+    }
+  };
+
+  init();
+})
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+.controller('pastTripCtrl', function($scope, $stateParams, sharedProperties) {
+  
+  $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
+  
+  var init = function(){
+    for(var i=0; i<Object.keys($scope.pastTrips).length ; i+=1){
+      if($scope.pastTrips[i].tripId == $stateParams.pastTripId){
+        $scope.trip=$scope.pastTrips[i];
+        break;
+      }
+    }
+  };
+
+  init();
 })
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -139,7 +139,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
     })
 
     
-    .state('app.single', {
+    .state('app.single1', {
       url: "/myTrips/:myTripId",
       views: {
         'menuContent' :{
@@ -149,6 +149,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       }
     })
 
+
+    .state('app.single2', {
+      url: "/pastTrips/:pastTripId",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/pastTrip.html",
+          controller: 'pastTripCtrl'
+        }
+      }
+    })
     /*
     .state('app.myFav', {
       url: "/myFav",

@@ -7,14 +7,15 @@
   <ion-content class="has-header" has-header="true" padding="false">
     <ion-list>
 
-      <ion-item ng-repeat="pastTrip in pastTrips" href="#/app/pastTrips/{{pastTrip.id}}">
-        <div style="width:80%; float:left;">
+      <ion-item ng-repeat="pastTrip in pastTrips" href="#/app/pastTrips/{{pastTrip.tripId}}">
+        <div style="width:70%; float:left;">
           <h2><b>{{pastTrip.tripName}}</b></h2>
           {{pastTrip.occasion}}
           <br>{{pastTrip.date | date: longDate}}
           <br><br>Created By: {{pastTrip.createdBy}}
         </div>
-        <div style="">
+
+        <div style="margin-right:10%;">
           <button class="button button-assertive button-small">
             Delete Trip?
           </button>
