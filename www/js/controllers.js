@@ -65,13 +65,12 @@ angular.module('starter.controllers', ['ionic'])
       console.log("SUCCESS: "+angular.toJson(data));
       sharedProperties.setMyTrips(data);
       $scope.myTrips = sharedProperties.getMyTrips();
-      
+      console.log("refreshed: "+$scope.myTrips);
     }).
     error(function(data,status,headers,config){
       console.log("ERROR: "+angular.toJson(data));
     });
     
-
     /*HARD CODED
       console.log("all trips:");
       var getMyTrips = localStorage.getItem('Trips');
@@ -119,6 +118,10 @@ angular.module('starter.controllers', ['ionic'])
           trip_duration:"one hour"},
 
       ]; */
+
+      $scope.changeStatus = function(status){
+
+      }
     
 })
 
@@ -231,7 +234,7 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
       sharedProperties.setAccessToken(response.authResponse.accessToken);
       refresh();
     },
-    {scope: 'read_friendlists'});
+    {scope: 'user_friends'});
     
   }
   function refresh() {
@@ -266,7 +269,14 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
     $facebook.api("/me/?fields=picture").then(
       function(response){
         sharedProperties.setUserDP(response.picture.data.url);
-      }); 
+      });
+
+
+    $facebook.api("/me/friends").then(
+      function(response){
+        console.log("friends resp:");
+        console.log(response);
+      });
   }  
 
 };
