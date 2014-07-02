@@ -1,39 +1,20 @@
 angular.module('starter.controllers', ['ionic'])
 
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-  // Form data for the login modal
-  $scope.loginData = {};
+.controller('AppCtrl', function($scope, sharedProperties) {
+  
+  $scope.loginName = sharedProperties.getUserName();
+  $scope.loginDP = sharedProperties.getUserDP();
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
 })
 
+//----------------------------------------------------------------------------------------------------------------------------------------
+
+.controller('defaultCtrl', function($scope, sharedProperties){
+  
+})
+
+//-----------------------------------------------------------------------------------------------------------------------------------------
 
 .controller('newTripCtrl', function($scope, $http, sharedProperties){
 
@@ -45,16 +26,16 @@ angular.module('starter.controllers', ['ionic'])
     console.log(trip);
 
     /*
-    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', params:{"userId":2,"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":2,"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":trip.venue,"date":trip.date}}).
     success(function(data,status,headers,config){
-      console.log("SUCCESS : "+angular.toJson(params));
+      console.log("SUCCESS : "+angular.toJson(data));
       window.location.href="#/app/defaultPage";
     }).
     error(function(data,status,headers,config){
-      console.log("ERROR : "+angular.toJson(params));
+      console.log("ERROR : "+angular.toJson(data));
     });  */
 
-    $scope.Trips.push({
+   /* $scope.Trips.push({
       id:sharedProperties.getTripId(),
       trip_name:trip.name,
       trip_occasion:trip.occasion,
@@ -65,24 +46,67 @@ angular.module('starter.controllers', ['ionic'])
       trip_duration:trip.duration
     });
     sharedProperties.setTripId();
-    window.localStorage.setItem('Trips', angular.toJson(Trips));
+    window.localStorage.setItem('Trips', angular.toJson(Trips)); */
 
 
     window.location.href="#/app/defaultPage";
 
   };
-
-
 })
 
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
 .controller('myTripsCtrl', function($scope, sharedProperties) {
       console.log("all trips:");
-      var myTrips = localStorage.getItem('Trips');
-      console.log(JSON.parse(myTrips)); 
+      var getMyTrips = localStorage.getItem('Trips');
+      console.log(JSON.parse(getMyTrips)); 
+
+      $scope.myTrips = [
+        {
+          id:sharedProperties.getTripId(),
+          trip_name:"Fun Day",
+          trip_occasion:"picnic",
+          trip_venue:"park",
+          trip_date:"2014-07-03",
+          trip_time:"03:30 pm",
+          trip_meetup:"hostel",
+          trip_duration:"a few hours"},
+
+        {
+          id:sharedProperties.getTripId(),
+          trip_name:"girls night out",
+          trip_occasion:"bday",
+          trip_venue:"club",
+          trip_date:"2014-06-18",
+          trip_time:"05:45",
+          trip_meetup:"jdfkn",
+          trip_duration:"one hour"},
+
+        {
+          id:sharedProperties.getTripId(),
+          trip_name:"Party Day",
+          trip_occasion:"holiday",
+          trip_venue:"house",
+          trip_date:"2014-07-03",
+          trip_time:"03:30",
+          trip_meetup:"hostel",
+          trip_duration:"a few hours"},
+
+        {
+          id:sharedProperties.getTripId(),
+          trip_name:"Enjoy shopping",
+          trip_occasion:"feeling vetti",
+          trip_venue:"club",
+          trip_date:"2014-06-18",
+          trip_time:"05:45",
+          trip_meetup:"jdfkn",
+          trip_duration:"one hour"},
+
+      ];
     
 })
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 .controller('myTripCtrl', function($scope, $stateParams, sharedProperties) {
   $scope.name=$stateParams.myTripId;
@@ -91,18 +115,30 @@ angular.module('starter.controllers', ['ionic'])
 .service('sharedProperties', function(){
 
   var baseUrl = "https://nodejs-shoppingbuddies.rhcloud.com";
-  var userId; 
+  var userId, userName, userDP; 
   var tripId = 1;
 
   return {
         getUserId: function() {
             return userId;
         },
-        getBaseUrl: function() {
-            return baseUrl;
-        },
         setUserId: function(value) {
             userId = value;
+        },
+        getUserName: function() {
+            return window.localStorage.getItem("userName");
+        },
+        setUserName: function(value) {
+            window.localStorage.setItem("userName", value);
+        },
+        getUserDP: function() {
+            return window.localStorage.getItem("userDP");
+        },
+        setUserDP: function(value) {
+            window.localStorage.setItem("userDP", value);
+        },
+        getBaseUrl: function() {
+            return baseUrl;
         },
         getTripId: function() {
             return tripId;
@@ -114,6 +150,8 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
+
 var isLoggedIn;
 
 //controller for login!
@@ -121,9 +159,12 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
 
   var accessToken;
   isLoggedIn = false;
-  console.log("is logged in: " +isLoggedIn);
+  
+  window.localStorage.clear();
   
   $scope.login = function() {
+
+    
     $facebook.login().then(function(response) {
       console.log("logging in response:");
       console.log(response);
@@ -140,10 +181,10 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
       function(response) {
         //$scope.welcomeMsg = response;
         console.log(response);
+        sharedProperties.setUserName(response.name);
+        console.log(sharedProperties.getUserName());
         isLoggedIn = true;
-        console.log("redirecting...setting userId as 573");
-        sharedProperties.setUserId(573);
-        console.log(sharedProperties.getUserId());
+        
         console.log("creating a new user account in shopping buddies DB");
 
         /*$http({method: 'POST', url:sharedProperties.getBaseUrl()+"/createTrip", params:{"userId":sharedProperties.getUserId()},data:{"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
@@ -162,11 +203,12 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
         //if not logged in - displaying no text
       });
 
-    /*$facebook.api("/me/permissions/public_profile").then(
+    $facebook.api("/me/?fields=picture").then(
       function(response){
-        console.log("friends");
-        console.log(response);
-      }); */
+        sharedProperties.setUserDP(response.picture.data.url);
+        console.log("profile picture: ");
+        console.log(response.picture.data.url);
+      }); 
   }  
 
 };
@@ -190,12 +232,4 @@ var LogoutCtrl = function($scope, $facebook){
   
 };
 
-
-//not working
-var AddFavCtrl = function($scope, sharedProperties){
-  $scope.addPic = function(){
-    console.log('pic');
-  }
-};
-
-
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

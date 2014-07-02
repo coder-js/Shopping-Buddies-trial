@@ -53,7 +53,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       url: "/app",
       abstract: true,
       templateUrl: "templates/menu.html",
-      //controller: 'AppCtrl'
+      controller: 'AppCtrl'
     })
 
     .state('app.login', {   //to be made
@@ -80,7 +80,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       url: "/defaultPage",
       views: {
         'menuContent' :{
-          templateUrl: "templates/defaultPage.html"
+          templateUrl: "templates/defaultPage.html",
+          controller: "defaultCtrl"
         }
       }
     })
@@ -127,7 +128,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       }
     })
 
-    //for each trip -> renaming playlist
+    
     .state('app.single', {
       url: "/myTrips/:myTripId",
       views: {
@@ -138,7 +139,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       }
     })
 
-    //renamed login.html
+    /*
     .state('app.myFav', {
       url: "/myFav",
       views: {
@@ -157,7 +158,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
           //controller: 'AddFavCtrl'
         }
       }
-    });
+    })*/
+    ;
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/login');
 })
