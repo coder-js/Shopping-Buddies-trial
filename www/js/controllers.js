@@ -3,6 +3,7 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('AppCtrl', function($scope, sharedProperties) {
   
+  
   $scope.loginName = sharedProperties.getUserName();
   $scope.loginDP = sharedProperties.getUserDP();
 
@@ -50,6 +51,7 @@ angular.module('starter.controllers', ['ionic'])
 
 
     window.location.href="#/app/defaultPage";
+
 
   };
 })

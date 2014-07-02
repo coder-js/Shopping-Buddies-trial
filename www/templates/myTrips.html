@@ -7,11 +7,24 @@
   <ion-content class="has-header" has-header="true" padding="false">
     <ion-list>
       <ion-item ng-repeat="myTrip in myTrips" href="#/app/myTrips/{{myTrip.id}}">
-        
-        <h2><b>{{myTrip.trip_name}}</b></h2>
-        {{myTrip.trip_occasion}}
-        <br>{{myTrip.trip_date | date: longDate}}&nbsp&nbsp{{myTrip.trip_time | date: 'shortTime'}}</span>
-      
+        <div style="width:80%; float:left;">
+          <h2><b>{{myTrip.trip_name}}</b></h2>
+          {{myTrip.trip_occasion}}
+          <br>{{myTrip.trip_date | date: longDate}},&nbsp&nbsp{{myTrip.trip_time | date: 'shortTime'}}
+          <br><br>Created By: {{}}
+        </div>
+        <div style="">
+          <button class="button button-assertive button-small">
+            Leave Trip?
+          </button>
+          <br><br>
+          <b>Trip Status?</b><br>
+            <select>
+              <option>No</option>
+              <option selected>Yes</option>
+              <option>Maybe</option>
+            </select>
+        </div>
       </ion-item>
     </ion-list>
   </ion-content>
@@ -20,3 +33,5 @@
 <div class="bar bar-footer bar-royal">
   <h2 class="title">For the true shopaholics!</h2>
 </div>
+
+
