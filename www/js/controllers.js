@@ -65,7 +65,7 @@ angular.module('starter.controllers', ['ionic'])
       console.log("SUCCESS: "+angular.toJson(data));
       sharedProperties.setMyTrips(data);
       $scope.myTrips = sharedProperties.getMyTrips();
-      location.reload();
+      
     }).
     error(function(data,status,headers,config){
       console.log("ERROR: "+angular.toJson(data));
@@ -124,7 +124,7 @@ angular.module('starter.controllers', ['ionic'])
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('pastTripsCtrl', function($scope, $stateParams, sharedProperties) {
+.controller('pastTripsCtrl', function($http, $scope, $stateParams, sharedProperties) {
     
     $scope.pastTrips = sharedProperties.getPastTrips();
     $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=1'}).
@@ -132,7 +132,7 @@ angular.module('starter.controllers', ['ionic'])
       console.log("SUCCESS: "+angular.toJson(data));
       sharedProperties.setPastTrips(data);
       $scope.pastTrips = sharedProperties.getPastTrips();
-      location.reload();
+      
     }).
     error(function(data,status,headers,config){
       console.log("ERROR: "+angular.toJson(data));
@@ -186,10 +186,10 @@ angular.module('starter.controllers', ['ionic'])
         setAccessToken: function(value) {
             window.localStorage.setItem("accessToken", value);
         },
-        getmyTrips: function(){
+        getMyTrips: function(){
             return localStorage.getItem('myTrips');
         },
-        setmyTrips: function(data){
+        setMyTrips: function(data){
             localStorage.setItem('myTrips', angular.toJson(data));
         },
         getPastTrips: function(){
@@ -240,11 +240,13 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
         
         sharedProperties.setLoginStatus(true);
 
-        console.log(response);
+        console.log(response.id);
+        var id = response.id;
+        console.log(id);
         sharedProperties.setUserName(response.name);
         console.log(sharedProperties.getUserName());
         
-        $http({method: 'POST', url:sharedProperties.getBaseUrl()+"/login", data:{"name":sharedProperties.getUserName(),"app_unique_id":response.id}}).
+        $http({method: 'POST', url:sharedProperties.getBaseUrl()+"/login", data:{"name":sharedProperties.getUserName(),"app_unique_id":id}}).
         success(function(data,status,headers,config){
           console.log("LOGIN SUCCESS : "+JSON.stringify(data));
           sharedProperties.setUserId(data.userId);
