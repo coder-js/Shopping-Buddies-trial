@@ -3,7 +3,7 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('AppCtrl', function($scope, sharedProperties) {
   
-  
+
   $scope.loginName = sharedProperties.getUserName();
   $scope.loginDP = sharedProperties.getUserDP();
 
@@ -19,24 +19,25 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('newTripCtrl', function($scope, $http, sharedProperties){
 
-  var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
-
   console.log('creating new trip');
+
   $scope.createTrip = function(trip){
     
     console.log(trip);
 
-    /*
-    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":2,"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":trip.venue,"date":trip.date}}).
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"friends":"","venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
+      alert(trip.name+" trip created!");
       window.location.href="#/app/defaultPage";
     }).
     error(function(data,status,headers,config){
       console.log("ERROR : "+angular.toJson(data));
-    });  */
+    });  
 
-   /* $scope.Trips.push({
+   /* LOCAL STORAGE
+      var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
+      $scope.Trips.push({
       id:sharedProperties.getTripId(),
       trip_name:trip.name,
       trip_occasion:trip.occasion,
@@ -49,16 +50,29 @@ angular.module('starter.controllers', ['ionic'])
     sharedProperties.setTripId();
     window.localStorage.setItem('Trips', angular.toJson(Trips)); */
 
-
     window.location.href="#/app/defaultPage";
-
 
   };
 })
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('myTripsCtrl', function($scope, sharedProperties) {
+.controller('myTripsCtrl', function($scope, $http, sharedProperties) {
+
+    $scope.myTrips = sharedProperties.getMyTrips();
+    $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
+    success(function(data,status,headers,config){
+      console.log("SUCCESS: "+angular.toJson(data));
+      sharedProperties.setMyTrips(data);
+      $scope.myTrips = sharedProperties.getMyTrips();
+      location.reload();
+    }).
+    error(function(data,status,headers,config){
+      console.log("ERROR: "+angular.toJson(data));
+    });
+    
+
+    /*HARD CODED
       console.log("all trips:");
       var getMyTrips = localStorage.getItem('Trips');
       console.log(JSON.parse(getMyTrips)); 
@@ -104,28 +118,55 @@ angular.module('starter.controllers', ['ionic'])
           trip_meetup:"jdfkn",
           trip_duration:"one hour"},
 
-      ];
+      ]; */
     
 })
 
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.controller('pastTripsCtrl', function($scope, $stateParams, sharedProperties) {
+    
+    $scope.pastTrips = sharedProperties.getPastTrips();
+    $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=1'}).
+    success(function(data,status,headers,config){
+      console.log("SUCCESS: "+angular.toJson(data));
+      sharedProperties.setPastTrips(data);
+      $scope.pastTrips = sharedProperties.getPastTrips();
+      location.reload();
+    }).
+    error(function(data,status,headers,config){
+      console.log("ERROR: "+angular.toJson(data));
+    });
+
+})
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 .controller('myTripCtrl', function($scope, $stateParams, sharedProperties) {
   $scope.name=$stateParams.myTripId;
 })
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 .service('sharedProperties', function(){
 
   var baseUrl = "https://nodejs-shoppingbuddies.rhcloud.com";
-  var userId, userName, userDP; 
-  var tripId = 1;
+  //var tripId = 1;
 
   return {
+        getLoginStatus: function() {
+            return window.localStorage.getItem("isLoggedIn");
+        },
+        setLoginStatus: function(value) {
+            window.localStorage.setItem("isLoggedIn",value);
+        },
         getUserId: function() {
-            return userId;
+            return window.localStorage.getItem("userId");
         },
         setUserId: function(value) {
-            userId = value;
+            window.localStorage.setItem("userId",value);
         },
         getUserName: function() {
             return window.localStorage.getItem("userName");
@@ -139,40 +180,55 @@ angular.module('starter.controllers', ['ionic'])
         setUserDP: function(value) {
             window.localStorage.setItem("userDP", value);
         },
+        getAccessToken: function() {
+            return window.localStorage.getItem("accessToken");
+        },
+        setAccessToken: function(value) {
+            window.localStorage.setItem("accessToken", value);
+        },
+        getmyTrips: function(){
+            return localStorage.getItem('myTrips');
+        },
+        setmyTrips: function(data){
+            localStorage.setItem('myTrips', angular.toJson(data));
+        },
+        getPastTrips: function(){
+            return localStorage.getItem('pastTrips');
+        },
+        setPastTrips: function(data){
+            localStorage.setItem('pastTrips', angular.toJson(data));
+        },
         getBaseUrl: function() {
             return baseUrl;
-        },
+        }
+        /*
         getTripId: function() {
             return tripId;
         },
         setTripId: function() {
             tripId = tripId+1;
-        }
+        }*/
     }
 
 })
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-var isLoggedIn;
 
-//controller for login!
 var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
 
   var accessToken;
-  isLoggedIn = false;
+  sharedProperties.setLoginStatus(false);
   
   window.localStorage.clear();
   
   $scope.login = function() {
-
-    
+ 
     $facebook.login().then(function(response) {
       console.log("logging in response:");
       console.log(response);
-      console.log("access token: ");
-      console.log(response.authResponse.accessToken);
-      accessToken = response.authResponse.accessToken;
+      console.log("access token set ");
+      sharedProperties.setAccessToken(response.authResponse.accessToken);
       refresh();
     },
     {scope: 'read_friendlists'});
@@ -181,22 +237,22 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
   function refresh() {
     $facebook.api("/me").then( 
       function(response) {
-        //$scope.welcomeMsg = response;
+        
+        sharedProperties.setLoginStatus(true);
+
         console.log(response);
         sharedProperties.setUserName(response.name);
         console.log(sharedProperties.getUserName());
-        isLoggedIn = true;
         
-        console.log("creating a new user account in shopping buddies DB");
-
-        /*$http({method: 'POST', url:sharedProperties.getBaseUrl()+"/createTrip", params:{"userId":sharedProperties.getUserId()},data:{"tripName":trip.name,"occasion":trip.occasion,"duration":trip.duration,"meetup":trip.meetup,"friends":"","venues":"","date":trip.date}}).
+        $http({method: 'POST', url:sharedProperties.getBaseUrl()+"/login", data:{"name":sharedProperties.getUserName(),"app_unique_id":response.id}}).
         success(function(data,status,headers,config){
-          console.log("SUCCESS : "+JSON.stringify(data));
+          console.log("LOGIN SUCCESS : "+JSON.stringify(data));
+          sharedProperties.setUserId(data.userId);
           window.location.href="#/app/defaultPage";
         }).
         error(function(data,status,headers,config){
-          console.log("ERROR : "+JSON.stringify(data));
-        });*/
+          console.log("LOGIN ERROR : "+JSON.stringify(data));
+        });
 
         window.location.href = "#/app/defaultPage";
         
@@ -208,24 +264,18 @@ var LoginCtrl = function ($scope, $facebook, $http, sharedProperties) {
     $facebook.api("/me/?fields=picture").then(
       function(response){
         sharedProperties.setUserDP(response.picture.data.url);
-        console.log("profile picture: ");
-        console.log(response.picture.data.url);
       }); 
   }  
 
 };
 
 
-var LogoutCtrl = function($scope, $facebook){
+var LogoutCtrl = function($scope, $facebook, sharedProperties){
   
   $scope.logout = function(){
     console.log("trying to log out");
-    isLoggedIn = false;
-    $facebook.logout(function(response){
-        console.log(response);
-        isLoggedIn = false;
-        console.log("isLoggedIn: "+isLoggedIn);
-    });
+    sharedProperties.setLoginStatus(false);
+    window.localStorage.clear();
   }
 
   $scope.back = function(){

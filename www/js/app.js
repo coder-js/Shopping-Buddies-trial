@@ -106,7 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       }
     })
 
-    //renamed playlists.html
+    
     .state('app.newTrip', {
       url: "/newTrip",
       views: {
@@ -117,13 +117,23 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngFacebook'])
       }
     })
   
-    //renamed playlists.html
+    
     .state('app.myTrips', {
       url: "/myTrips",
       views: {
         'menuContent' :{
           templateUrl: "templates/myTrips.html",
           controller: 'myTripsCtrl'
+        }
+      }
+    })
+
+    .state('app.pastTrips', {
+      url: "/pastTrips",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/pastTrips.html",
+          controller: 'pastTripsCtrl'
         }
       }
     })

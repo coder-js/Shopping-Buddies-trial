@@ -6,29 +6,29 @@
   </ion-nav-bar>
   <ion-content class="has-header">
         <label class="item item-input">
-          <input type="text" placeholder="Event Name" ng-model="trip.name">
+          <input type="text" placeholder="Event Name" ng-model="trip.trip_name">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Occasion" ng-model="trip.occasion">
+          <input type="text" placeholder="Occasion" ng-model="trip.trip_occasion">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Venue" ng-model="trip.venue">
+          <input type="text" placeholder="Venue" ng-model="trip.trip_venue">
         </label>
         <label class="item item-input">
-          <input type="date" placeholder="Date" ng-model="trip.date">
+          <input type="date" placeholder="Date" ng-model="trip.trip_date">
         </label>
         <label class="item item-input">
-          <input type="time" placeholder="Time" ng-model="trip.timing">
+          <input type="time" placeholder="Time" ng-model="trip.trip_timing">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Meet up venue?" ng-model="trip.meetup">
+          <input type="text" placeholder="Meet up venue?" ng-model="trip.trip_meetup">
         </label>
         <div class="list">
           <label class="item item-input item-select">
             <div class="input-label">
               Duration
             </div>
-            <select ng-model="trip.duration">
+            <select ng-model="trip.trip_duration">
               <option value="half an hour">Half an hour</option>
               <option value="one hour">One hour</option>
               <option value="few hours">A few hours</option>
@@ -41,7 +41,7 @@
             <div class="input-label">
               Invite List
             </div>
-            <select ng-model="trip.friends">
+            <select ng-model="trip.trip_friends">
               <option>{{friend.name}}</option>    <!--from the DB-->
             <select>
           </label>
