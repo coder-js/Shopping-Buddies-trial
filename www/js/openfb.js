@@ -66,8 +66,6 @@ angular.module('openfb', [])
 
             loginProcessed = false;
 
-            logout();
-
             // Check if an explicit oauthRedirectURL has been provided in init(). If not, infer the appropriate value
             if (!oauthRedirectURL) {
                 if (runningInCordova) {
@@ -138,6 +136,11 @@ angular.module('openfb', [])
          * Application-level logout: we simply discard the token.
          */
         function logout() {
+            if(window.cordova) {
+                window.cookies.clear(function(){
+
+                });
+            }
             tokenStore['fbtoken'] = undefined;
         }
 
