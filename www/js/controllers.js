@@ -1,8 +1,14 @@
 angular.module('starter.controllers', ['ionic'])
 
 
-.controller('AppCtrl', function($scope, sharedProperties) {
+.controller('AppCtrl', function($scope, sharedProperties,OpenFB) {
   
+  $scope.$on("loginsuccess", function(){
+      $scope.loginName = sharedProperties.getUserName();
+      $scope.loginDP = sharedProperties.getUserDP();
+      $scope.$apply();
+  });
+
   $scope.loginName = sharedProperties.getUserName();
   
   $scope.loginDP = sharedProperties.getUserDP();
@@ -252,7 +258,7 @@ angular.module('starter.controllers', ['ionic'])
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-var LoginCtrl = function ($scope, OpenFB, $http, sharedProperties) {
+var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
 
   var accessToken;
   sharedProperties.setLoginStatus(false);
@@ -269,21 +275,17 @@ var LoginCtrl = function ($scope, OpenFB, $http, sharedProperties) {
   }
 
   function refresh() {
-    OpenFB.get("/me").success( 
+    OpenFB.get("/me?fields=id,name,picture").success( 
       function(response) {
-        
-        sharedProperties.setLoginStatus(true);
 
-        console.log(response.id);
+        sharedProperties.setLoginStatus(true);
         var id = response.id;
-        console.log(id);
         sharedProperties.setUserName(response.name);
-        console.log(sharedProperties.getUserName());
-        
+        sharedProperties.setUserDP(response.picture.data.url);     
         $http({method: 'POST', url:sharedProperties.getBaseUrl()+"/login", data:{"name":sharedProperties.getUserName(),"app_unique_id":id}}).
         success(function(data,status,headers,config){
-          console.log("LOGIN SUCCESS : "+JSON.stringify(data));
           sharedProperties.setUserId(data.userId);
+          $rootScope.$broadcast("loginsuccess");
           window.location.href="#/app/defaultPage";
         }).
         error(function(data,status,headers,config){
@@ -296,12 +298,6 @@ var LoginCtrl = function ($scope, OpenFB, $http, sharedProperties) {
       function(err) {
         //if not logged in - displaying no text
       });
-
-    OpenFB.get("/me/?fields=picture").success(
-      function(response){
-        sharedProperties.setUserDP(response.picture.data.url);
-      });
-
 
     OpenFB.get("/me/friends").success(
       function(response){

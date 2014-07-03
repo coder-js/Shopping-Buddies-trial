@@ -17,7 +17,7 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
     if(window.cordova) {
       OpenFB.init('467674736710937', 'https://www.facebook.com/connect/login_success.html');  
     }else {
-      OpenFB.init('249034425292668', 'http://localhost:8100/');
+      OpenFB.init('249034425292668', 'http://localhost:8100/oauthcallback.html');
     }
 
     if(window.cordova && window.cordova.plugins.Keyboard) {
