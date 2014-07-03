@@ -1,0 +1,49 @@
+
+<ion-side-menus>
+
+  <ion-pane ion-side-menu-content>
+    <ion-nav-bar class="bar-stable nav-title-slide-ios7">
+      <ion-nav-back-button class="button-clear"><i class="icon ion-ios7-arrow-back"></i>Back</ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-view name="menuContent" animation="slide-left"></ion-nav-view>
+  </ion-pane>
+
+  <ion-side-menu side="left">
+    <header class="bar bar-header bar-royal">
+      <h1 class="title">{{loginName}}</h1><br>
+      <img src ="{{loginDP}}" alt = "{{loginName}}" style="display:block; height:100%;">
+    </header>
+    <ion-content class="has-header">
+      
+      <ion-list>
+        <ion-item nav-clear menu-close href="#/app/newTrip">
+          New Shopping Trip
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/myTrips">
+          Upcoming Shopping Trips
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/pastTrips">
+          Past Shopping Trips
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/myFriends">
+          My Friends
+        </ion-item>
+        <!--<ion-item nav-clear menu-close href="#/app/addFav">
+          Add to Favorites
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/myFav">
+          My Favorites
+        </ion-item>-->
+        <ion-item nav-clear menu-close href="#/app/findFriends">
+          Tell ur Friends!
+        </ion-item>
+        <ion-item nav-clear menu-close href="#/app/logout ">
+          Logout
+        </ion-item>
+      </ion-list>
+    </ion-content>
+    <footer class="bar bar-footer bar-royal">
+    </footer>
+  </ion-side-menu>
+
+</ion-side-menus>
