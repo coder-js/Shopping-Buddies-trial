@@ -6,7 +6,9 @@ angular.module('starter.controllers', ['ionic'])
   $scope.$on("loginsuccess", function(){
       $scope.loginName = sharedProperties.getUserName();
       $scope.loginDP = sharedProperties.getUserDP();
-      $scope.$apply();
+      if(!$scope.$$phase){
+        $scope.$apply();
+      }
   });
 
   $scope.loginName = sharedProperties.getUserName();
@@ -192,6 +194,13 @@ angular.module('starter.controllers', ['ionic'])
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+.controller('findFriendsCtrl', function($http, $scope, sharedProperties) {
+    
+    $scope.findFriends = JSON.parse(sharedProperties.getFriends());
+
+})
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 .service('sharedProperties', function(){
 
@@ -241,6 +250,12 @@ angular.module('starter.controllers', ['ionic'])
         setPastTrips: function(data){
             localStorage.setItem('pastTrips', angular.toJson(data));
         },
+        getFriends: function(){
+            return localStorage.getItem('friends');
+        },
+        setFriends: function(data){
+            localStorage.setItem('friends', angular.toJson(data));
+        },
         getBaseUrl: function() {
             return baseUrl;
         }
@@ -267,7 +282,7 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
   
   $scope.login = function() {
  
-    OpenFB.login('email,read_stream,publish_stream').then(function(response) {
+    OpenFB.login('email,read_stream,publish_stream,user_friends').then(function(response) {
       refresh();
     },function(){
     });
@@ -301,11 +316,16 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
         //if not logged in - displaying no text
       });
 
-    OpenFB.get("/me/friends").success(
+    OpenFB.get("/me/friends/").success(
       function(response){
         console.log("friends resp:");
         console.log(response);
-      });
+        sharedProperties.setFriends(response.data);
+      }).
+    error(function(response){
+      console.log(response);
+    });
+
   }  
 };
 
