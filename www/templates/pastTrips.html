@@ -3,11 +3,16 @@
         <ion-nav-buttons side="left">
           <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
         </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+          <button class="button button-icon icon ion-ios7-minus-outline" ng-click="data.showDelete = !data.showDelete;">Delete trip?</button>
+        </ion-nav-buttons>
+
   </ion-nav-bar>
   <ion-content class="has-header" has-header="true" padding="false">
-    <ion-list>
+    <ion-list show-delete="data.showDelete">
 
       <ion-item ng-repeat="pastTrip in pastTrips" href="#/app/pastTrips/{{pastTrip.tripId}}">
+
         <div style="width:70%; float:left;">
           <h2><b>{{pastTrip.tripName}}</b></h2>
           {{pastTrip.occasion}}
@@ -15,11 +20,9 @@
           <br><br>Created By: {{pastTrip.createdBy}}
         </div>
 
-        <div style="margin-right:10%;">
-          <button class="button button-assertive button-small">
-            Delete Trip?
-          </button>
-        </div>
+        <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(myTrip)">
+        </ion-delete-button>
+
       </ion-item>  
 
     </ion-list>

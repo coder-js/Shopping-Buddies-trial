@@ -1,0 +1,26 @@
+<ion-view title="View Friends" style="background-image:url('../img/bgImgShop.jpg'); background-position: center bottom;">
+
+   <ion-nav-bar class="bar-royal">
+
+        <ion-nav-buttons side="right">
+          <button class="button button-small button-calm" ng-click="closeModal()">
+            Back
+          </button>
+        </ion-nav-buttons>
+  </ion-nav-bar>
+
+   <ion-content class="has-header">
+    <ion-list>
+       <ion-item ng-repeat="viewFriend in viewFriends">
+
+        <div class="item item-thumbnail-left">
+            <img src ="http://graph.facebook.com/{{viewFriend.id}}/picture?type=large" alt = "{{viewFriend.name}}" style="display:block; padding:5%;">
+            <br><h2>{{viewFriend.name}}</h2>
+        </div>
+
+      </ion-item> 
+    </ion-list>
+  </ion-content>
+</ion-view>
+
+<!--https://graph.facebook.com/{{viewFriend.id}}  . name-->

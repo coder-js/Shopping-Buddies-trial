@@ -29,9 +29,9 @@ angular.module('starter.controllers', ['ionic'])
 
   console.log('creating new trip');
 
-  $scope.createTrip = function(trip){
-    
-    console.log(trip);
+  $scope.sendTrip = function(trip){
+    ActivityIndicator.show("Creating new trip...");
+    console.log("sending trip");
     
     var friendList = [];
 
@@ -44,13 +44,14 @@ angular.module('starter.controllers', ['ionic'])
     $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
-      alert(trip.trip_name+" trip created!");
+      ActivityIndicator.hide();
+      alert("\""+trip.trip_name+"\" trip created!");
       window.location.href="#/app/defaultPage";
     }).
     error(function(data,status,headers,config){
       console.log("ERROR : "+angular.toJson(data));
     });  
-
+  };
    /* LOCAL STORAGE
       var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
       $scope.Trips.push({
@@ -65,7 +66,46 @@ angular.module('starter.controllers', ['ionic'])
     });
     sharedProperties.setTripId();
     window.localStorage.setItem('Trips', angular.toJson(Trips)); */
+
+  $scope.createTrip = function(trip){
+
+    console.log(trip);
+   
+    if(!trip)
+    {
+      alert("Can't submit empty trip");
+      return false;
+    }
+    if(!trip.trip_name)
+    {
+      alert("Enter Trip Name");
+      return false;
+    }  
+    if(!trip.trip_venue)
+    {
+      alert("Enter Trip Venue");
+      return false;
+    }
+    if(!trip.trip_date)
+    {
+      alert("Enter Trip Date");
+      return false;
+    }
+    else if(trip.trip_date < new Date().toJSON().slice(0,10))
+    {
+      alert("Enter a future date. This date has already passed");
+      return false;
+    }
+
+    if(!trip.trip_timing)
+    {
+      console.log(trip.trip_time);
+      alert("Enter Trip Time");
+      return false;
+    }
+    $scope.sendTrip(trip);
   };
+  
     $scope.findFriends = JSON.parse(sharedProperties.getFriends());
     
 
@@ -102,7 +142,7 @@ angular.module('starter.controllers', ['ionic'])
     // Execute action
   });
 
-    
+
 })
 
 
@@ -177,7 +217,36 @@ angular.module('starter.controllers', ['ionic'])
 
       $scope.changeStatus = function(status){
 
-      }
+      };
+
+      $scope.data = {
+        showDelete: false
+      };
+  
+      $scope.onItemDelete = function(item) {
+        console.log(item);
+        if(confirm("Are you sure you want to leave \""+item.tripName+"\" trip?")){ 
+            $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/leaveTrip', data:{"userId":sharedProperties.getUserId(),"tripId":item.tripId}}).
+            success(function(data,status,headers,config){
+              console.log("SUCCESS: ");
+              alert("Trip deleted");
+              $scope.data.showDelete = !$scope.data.showDelete;  
+            }).
+            error(function(data,status,headers,config){
+              console.log("ERROR: ");
+              alert("Couldn't delete trip. Try again later");
+              $scope.data.showDelete = !$scope.data.showDelete; 
+            });
+
+        }
+        else{
+          $scope.data.showDelete = !$scope.data.showDelete;
+          return false;
+        }
+      };
+
+      
+  
     
 })
 
@@ -197,12 +266,38 @@ angular.module('starter.controllers', ['ionic'])
       console.log("ERROR: "+angular.toJson(data));
     });
 
+    $scope.data = {
+        showDelete: false
+      };
+  
+      $scope.onItemDelete = function(item) {
+        console.log(item);
+        if(confirm("Are you sure you want to delete \""+item.tripName+"\" trip?")){ 
+            $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/leaveTrip', data:{"userId":sharedProperties.getUserId(),"tripId":item.tripId}}).
+            success(function(data,status,headers,config){
+              console.log("SUCCESS: ");
+              alert("Trip deleted");
+              $scope.data.showDelete = !$scope.data.showDelete;  
+            }).
+            error(function(data,status,headers,config){
+              console.log("ERROR: ");
+              alert("Couldn't delete trip. Try again later");
+              $scope.data.showDelete = !$scope.data.showDelete; 
+            });
+
+        }
+        else{
+          $scope.data.showDelete = !$scope.data.showDelete;
+          return false;
+        }
+      };
+
 })
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('myTripCtrl', function($scope, $stateParams, sharedProperties) {
+.controller('myTripCtrl', function($scope, $stateParams, sharedProperties, $ionicModal) {
   
   $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
   
@@ -216,6 +311,38 @@ angular.module('starter.controllers', ['ionic'])
   };
 
   init();
+
+  $ionicModal.fromTemplateUrl('templates/viewFriends.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+  $scope.viewFriends=[
+    {"id":1, "name":"abc"},
+    {"id":2, "name":"pqr"},
+    {"id":3, "name":"xyz"}
+  ];
+    
 })
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
