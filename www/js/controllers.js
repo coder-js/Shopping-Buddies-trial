@@ -334,11 +334,11 @@ var LogoutCtrl = function($scope, OpenFB, sharedProperties,$ionicViewService){
   
   $scope.logout = function(){
     ActivityIndicator.show("Logging out...");
-    $ionicViewService.clearHistory();
-    OpenFB.logout()
+     OpenFB.logout()
     sharedProperties.setLoginStatus(false);
     window.localStorage.clear();
     window.location.href = "#/app/login";
+     $ionicViewService.clearHistory();
     ActivityIndicator.hide();
   }
 
