@@ -6,7 +6,9 @@ angular.module('starter.controllers', ['ionic'])
   $scope.$on("loginsuccess", function(){
       $scope.loginName = sharedProperties.getUserName();
       $scope.loginDP = sharedProperties.getUserDP();
-      $scope.$apply();
+      if(!$scope.$$phase){
+        $scope.$apply();
+      }
   });
 
   $scope.loginName = sharedProperties.getUserName();
@@ -267,7 +269,7 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
   
   $scope.login = function() {
  
-    OpenFB.login('email,read_stream,publish_stream').then(function(response) {
+    OpenFB.login('email,read_stream,publish_stream,user_friends').then(function(response) {
       refresh();
     },function(){
        alert("Login failed");
@@ -303,7 +305,10 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
       function(response){
         console.log("friends resp:");
         console.log(response);
-      });
+      }).
+    error(function(response){
+      console.log(response);
+    });
   }  
 
 };
