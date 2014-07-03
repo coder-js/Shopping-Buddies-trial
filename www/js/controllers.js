@@ -31,35 +31,18 @@ angular.module('starter.controllers', ['ionic'])
 
   $scope.createTrip = function(trip){
     
-    console.log(trip);
-
+    ActivityIndicator.show("Creating new trip...");
+    
     $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"friends":"","venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
+      ActivityIndicator.hide();
       alert(trip.trip_name+" trip created!");
       window.location.href="#/app/defaultPage";
     }).
     error(function(data,status,headers,config){
       console.log("ERROR : "+angular.toJson(data));
     });  
-
-   /* LOCAL STORAGE
-      var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
-      $scope.Trips.push({
-      id:sharedProperties.getTripId(),
-      trip_name:trip.name,
-      trip_occasion:trip.occasion,
-      trip_venue:trip.venue,
-      trip_date:trip.date,
-      trip_time:trip.timing,
-      trip_meetup:trip.meetup,
-      trip_duration:trip.duration
-    });
-    sharedProperties.setTripId();
-    window.localStorage.setItem('Trips', angular.toJson(Trips)); */
-
-    window.location.href="#/app/defaultPage";
-
   };
 })
 
@@ -70,9 +53,10 @@ angular.module('starter.controllers', ['ionic'])
     $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
     
     //console.log("# of myTrips: " +Object.keys($scope.myTrips).length);
-
+    ActivityIndicator.show("Loading trips...");
     $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
     success(function(data,status,headers,config){
+      ActivityIndicator.hide();
       console.log("SUCCESS: "+angular.toJson(data));
       sharedProperties.setMyTrips(data);
       $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
