@@ -5,12 +5,27 @@
         </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header">
-    <h1>Search for friends</h1>
+      <ion-list>
+      
+      <ion-item ng-repeat="findFriend in findFriends">
 
-    <div class="fb-login-button" data-max-rows="20" data-size="icon" data-show-faces="true" data-auto-logout-link="false">{{friend}}</div>
+        <div style="float:left;">
+             <img src ="http://graph.facebook.com/{{findFriend.id}}/picture?type=normal" alt = "{{findFriend.name}}" style="display:block; padding:5%;">
+        </div>
+        <br>
+        <div style="float:left; margin-left:10%">
+             <h1>{{findFriend.name}}</h1>
+        </div>
+        <br>
+        <br>
+        <div style="margin-right:10%;">
+          <button class="button button-assertive button-small">
+            Add as shopping buddy?
+          </button>
+        </div>
+      </ion-item> 
 
-    <!--need fb api to find friends with this app-->
-
+    </ion-list>
   </ion-content>
 </ion-view>
 <div class="bar bar-footer bar-royal">

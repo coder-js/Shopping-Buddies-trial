@@ -75,7 +75,8 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
       url: "/findFriends",
       views: {
         'menuContent' :{
-          templateUrl: "templates/findFriends.html"
+          templateUrl: "templates/findFriends.html", 
+          controller: "findFriendsCtrl"
         }
       }
     })
