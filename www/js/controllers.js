@@ -270,22 +270,24 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
     OpenFB.login('email,read_stream,publish_stream').then(function(response) {
       refresh();
     },function(){
-       alert("Login failed");
     });
   }
 
   function refresh() {
     OpenFB.get("/me?fields=id,name,picture").success( 
       function(response) {
+        ActivityIndicator.show("Logging in...");
 
-        sharedProperties.setLoginStatus(true);
         var id = response.id;
+        sharedProperties.setLoginStatus(true);
         sharedProperties.setUserName(response.name);
-        sharedProperties.setUserDP(response.picture.data.url);     
+        sharedProperties.setUserDP(response.picture.data.url); 
+
         $http({method: 'POST', url:sharedProperties.getBaseUrl()+"/login", data:{"name":sharedProperties.getUserName(),"app_unique_id":id}}).
         success(function(data,status,headers,config){
           sharedProperties.setUserId(data.userId);
           $rootScope.$broadcast("loginsuccess");
+          ActivityIndicator.hide();
           window.location.href="#/app/defaultPage";
         }).
         error(function(data,status,headers,config){
@@ -305,16 +307,19 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
         console.log(response);
       });
   }  
-
 };
 
 
-var LogoutCtrl = function($scope, OpenFB, sharedProperties){
+var LogoutCtrl = function($scope, OpenFB, sharedProperties,$ionicViewService){
   
   $scope.logout = function(){
+    ActivityIndicator.show("Logging out...");
+    $ionicViewService.clearHistory();
+    OpenFB.logout()
     sharedProperties.setLoginStatus(false);
     window.localStorage.clear();
     window.location.href = "#/app/login";
+    ActivityIndicator.hide();
   }
 
   $scope.back = function(){
