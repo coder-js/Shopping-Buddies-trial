@@ -12,9 +12,14 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
 
 .run(function($ionicPlatform,OpenFB) {
 
-  OpenFB.init('249034425292668');
-
+  //    
   $ionicPlatform.ready(function() {
+    if(window.cordova) {
+      OpenFB.init('467674736710937');  
+    }else {
+      OpenFB.init('249034425292668');
+    }
+
     if(window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
     }
