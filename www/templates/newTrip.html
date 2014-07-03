@@ -36,19 +36,12 @@
             </select>
           </label>
         </div>
-        <div class="list">
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Invite List
-            </div>
-            <select ng-model="trip.trip_friends">
-              <option>{{friend.name}}</option>    <!--from the DB-->
-            <select>
-          </label>
-        </div>
-        <button class="button button-block button-calm" ng-click="createTrip(trip)" >
-          Submit
-        </button> 
+        <label>
+            <button class="button icon-right ion-chevron-right button-balanced button-block button-small" ng-click="openModal()">Add friends</button>
+        </label>
+        <label>
+            <button class="button button-block button-calm" ng-click="createTrip(trip)" >Submit</button
+        </label>
       </ion-content>
 </ion-view>
 

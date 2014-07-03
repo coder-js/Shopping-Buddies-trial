@@ -70,23 +70,23 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
       }
     })
 
-    //renamed search
     .state('app.findFriends', {
       url: "/findFriends",
       views: {
         'menuContent' :{
           templateUrl: "templates/findFriends.html", 
-          controller: "findFriendsCtrl"
+          //controller: "findFriendsCtrl"
         }
       }
     })
 
-    //renamed browse    
+    
     .state('app.myFriends', {
       url: "/myFriends",
       views: {
         'menuContent' :{
-          templateUrl: "templates/myFriends.html"
+          templateUrl: "templates/myFriends.html", 
+          controller: "friendsCtrl"
         }
       }
     })
@@ -100,8 +100,7 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
           controller: 'newTripCtrl'
         }
       }
-    })
-  
+    })  
     
     .state('app.myTrips', {
       url: "/myTrips",
