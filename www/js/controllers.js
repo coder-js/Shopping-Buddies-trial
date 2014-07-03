@@ -25,15 +25,23 @@ angular.module('starter.controllers', ['ionic'])
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('newTripCtrl', function($scope, $http, sharedProperties){
+.controller('newTripCtrl', function($scope, $http, sharedProperties, $ionicModal){
 
   console.log('creating new trip');
 
   $scope.createTrip = function(trip){
     
     console.log(trip);
+    
+    var friendList = [];
 
-    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"friends":"","venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
+    for(var i=0; i< $scope.findFriends.length; i++)
+      if($scope.findFriends[i].selected)
+        friendList.push($scope.findFriends[i].id);
+
+      console.log(friendList);
+
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"friends":"friendList","venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
       alert(trip.trip_name+" trip created!");
@@ -57,13 +65,50 @@ angular.module('starter.controllers', ['ionic'])
     });
     sharedProperties.setTripId();
     window.localStorage.setItem('Trips', angular.toJson(Trips)); */
-
-    window.location.href="#/app/defaultPage";
-
   };
+    $scope.findFriends = JSON.parse(sharedProperties.getFriends());
+    
+
+    $scope.selected = function(item){
+        if(item.selected)
+          return true;
+        else
+          return false;
+    };
+
+
+  $ionicModal.fromTemplateUrl('templates/addFriends.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+    
 })
 
+
+
 //--------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 .controller('myTripsCtrl', function($scope, $http, sharedProperties) {
   
@@ -194,11 +239,12 @@ angular.module('starter.controllers', ['ionic'])
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('findFriendsCtrl', function($http, $scope, sharedProperties) {
+.controller('friendsCtrl', function($http, $scope, sharedProperties) {
     
     $scope.findFriends = JSON.parse(sharedProperties.getFriends());
 
 })
+
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
