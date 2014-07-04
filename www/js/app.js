@@ -143,6 +143,16 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
         }
       }
     })
+
+    .state('app.socialshare', {
+       url: "/socialshare",
+      views: {
+        'menuContent' :{
+          templateUrl: "templates/socialshare.html",
+          controller: 'socialShareCtrl'
+        }
+      }
+    })
     /*
     .state('app.myFav', {
       url: "/myFav",

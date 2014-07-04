@@ -245,15 +245,48 @@ angular.module('starter.controllers', ['ionic'])
 
 })
 
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.controller('socialShareCtrl', function($scope,$window, OpenFB, sharedProperties) {
+     $scope.shareFacebook = function(){
+        window.open(sharedProperties.getFBShareUrl(),"_blank", "location=no");
+     }
+
+     $scope.shareTwitter = function(){
+        window.open(sharedProperties.getTweetUrl(),"_blank", "location=no");
+     }
+})
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 .service('sharedProperties', function(){
 
+  var app_id = '249034425292668';
+  var redirect_uri = 'http://localhost:8100/oauthcallback.html';
+  if(window.cordova) {
+    app_id = "467674736710937";
+    redirect_uri = "https://www.facebook.com/connect/login_success.html";
+  }
+
   var baseUrl = "https://nodejs-shoppingbuddies.rhcloud.com";
+  var fbShareURL = "https://www.facebook.com/dialog/feed?app_id=" + app_id +
+                   "&link=http%3A%2F%2Fwww.facebook.com%2Fshoppingbuddiesapp" +
+                   "&name=Shopping+Buddies&description=Its+really+cool+app.+Check+out+buddies.+Lets+shop%21%21%21%21&" +
+                   "redirect_uri=http://www.facebook.com";
+
+  var tweetURL = "https://twitter.com/intent/tweet?text=Hi+shopping+buddies%2C+check+this+out.+%23shoppingbuddies";
   //var tripId = 1;
 
   return {
+        getFBShareUrl: function(){
+           return fbShareURL;
+        },
+        getTweetUrl: function(){
+           return tweetURL;
+        },
+        getTitle: function(){
+
+        },
         getLoginStatus: function() {
             return window.localStorage.getItem("isLoggedIn");
         },
