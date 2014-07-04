@@ -22,26 +22,35 @@
 
         <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(myTrip)">
         </ion-delete-button>
-
-        <ion-option-button class="button-icon ion-checkmark-round" 
-            style=" display:block !important; background-color:lime !important; height: calc(103px / 3) !important; height: -webkit-calc(103px / 3) !important; min-height: 0 !important;
-                font-size:10px !important;" ng-click="">
+        
+         <div style="vertical-align:middle;">
+          <ion-option-button class="button-icon ion-checkmark-round" style="color:#19DA3D;" ng-click="updateStatus(myTrip, 1);">
             yes
           </ion-option-button>
-          <ion-option-button class="button-icon ion-close-round"
-              style=" display:block !important; background-color:pink !important; height: calc(103px / 3) !important; height: -webkit-calc(103px / 3) !important; min-height: 0 !important;
-                font-size:10px !important;" ng-click="">
+          
+          <ion-option-button class="button-icon ion-close-round" style="color:#F00707" ng-click="updateStatus(myTrip, 0);">
             no
           </ion-option-button>
-          <ion-option-button class="button-icon ion-help"
-                style=" display:block !important; background-color:yellow !important; height: calc(103px / 3) !important; height: -webkit-calc(103px / 3) !important; min-height: 0 !important;
-                font-size:10px !important;" ng-click="">
+          
+          <ion-option-button class="button-icon ion-help" style="color:#FFCC00;" ng-click="updateStatus(myTrip, 2);">
             maybe
           </ion-option-button>
-        <div style="padding-right:10%;">
-            <i class="ion-star" style="color:gold"></i>
-            <br><h2>Your Status: </h2><i class="{{icon}}" style="color:{{icon-color}}"></i>
-            <br><h4>To change status swipe left</h4>
+         </div>
+
+        <div style="padding-right:10%;" ng-hide="myTrip.responded">
+            <i class="ion-star" style="color:#FFCC00;"></i><br>
+            <i class="ion-checkmark-round" style="color:#19DA3D;">Yes</i>
+        </div>
+        <div style="padding-right:10%;" ng-show="myTrip.responded">
+            <div ng-show="myTrip.status==1">
+              <i class="ion-checkmark-round" style="color:#19DA3D;">Yes</i>
+            </div>
+            <div ng-show="myTrip.status==0">
+              <i class="ion-checkmark-round" style="color:#F00707;">No</i>
+            </div>
+            <div ng-show="myTrip.status==2">
+              <i class="ion-checkmark-round" style="color:#FFCC00;">Maybe</i>
+            </div>
         </div>
 
       </ion-item> 
@@ -55,3 +64,5 @@
 </div>
 
 
+<!--style=" display:block !important; background-color:lime !important; height: calc(103px / 3) !important; height: -webkit-calc(103px / 3) !important; min-height: 0 !important;
+                font-size:10px !important;" -->

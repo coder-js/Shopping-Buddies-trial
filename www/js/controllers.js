@@ -152,72 +152,41 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('myTripsCtrl', function($scope, $http, sharedProperties) {
   
-    $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
-    
-    //console.log("# of myTrips: " +Object.keys($scope.myTrips).length);
 
-    $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
-    success(function(data,status,headers,config){
-      console.log("SUCCESS: "+angular.toJson(data));
-      sharedProperties.setMyTrips(data);
-      $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
-      console.log("refreshed: "+$scope.myTrips);
-    }).
-    error(function(data,status,headers,config){
-      console.log("ERROR: " + angular.toJson(data));
-    });
-    
-    /*HARD CODED
-      console.log("all trips:");
-      var getMyTrips = localStorage.getItem('Trips');
-      console.log(JSON.parse(getMyTrips)); 
+    var init = function(){
 
-      $scope.myTrips = [
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"Fun Day",
-          trip_occasion:"picnic",
-          trip_venue:"park",
-          trip_date:"2014-07-03",
-          trip_time:"03:30 pm",
-          trip_meetup:"hostel",
-          trip_duration:"a few hours"},
+        $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
+        
+        $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
+          success(function(data,status,headers,config){
+          console.log("SUCCESS: "+angular.toJson(data));
+          sharedProperties.setMyTrips(data);
+          $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
+          console.log("refreshed: "+$scope.myTrips);
+        }).
+        error(function(data,status,headers,config){
+          console.log("ERROR: " + angular.toJson(data));
+        });
+    };
 
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"girls night out",
-          trip_occasion:"bday",
-          trip_venue:"club",
-          trip_date:"2014-06-18",
-          trip_time:"05:45",
-          trip_meetup:"jdfkn",
-          trip_duration:"one hour"},
 
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"Party Day",
-          trip_occasion:"holiday",
-          trip_venue:"house",
-          trip_date:"2014-07-03",
-          trip_time:"03:30",
-          trip_meetup:"hostel",
-          trip_duration:"a few hours"},
+      $scope.updateStatus = function(item, status){
+        console.log(item);
+        $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/updateTripStatus', data:{"userId":sharedProperties.getUserId(), "tripId":item.tripId, "status":status}}).
+          success(function(data,status,headers,config){
+            console.log("SUCCESS: ");
+            alert("Status updated");  
+            init();
+          }).
+          error(function(data,status,headers,config){
+            console.log("ERROR: ");
+            console.log(data);
+            alert("Couldn't update status. Try again later");
+          });
 
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"Enjoy shopping",
-          trip_occasion:"feeling vetti",
-          trip_venue:"club",
-          trip_date:"2014-06-18",
-          trip_time:"05:45",
-          trip_meetup:"jdfkn",
-          trip_duration:"one hour"},
-
-      ]; */
-
-      $scope.changeStatus = function(status){
 
       };
+
 
       $scope.data = {
         showDelete: false
@@ -225,18 +194,21 @@ angular.module('starter.controllers', ['ionic'])
   
       $scope.onItemDelete = function(item) {
         console.log(item);
+        console.log(sharedProperties.getUserId());
         if(confirm("Are you sure you want to leave \""+item.tripName+"\" trip?")){ 
             $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/leaveTrip', data:{"userId":sharedProperties.getUserId(),"tripId":item.tripId}}).
-            success(function(data,status,headers,config){
-              console.log("SUCCESS: ");
-              alert("Trip deleted");
-              $scope.data.showDelete = !$scope.data.showDelete;  
-            }).
-            error(function(data,status,headers,config){
-              console.log("ERROR: ");
-              alert("Couldn't delete trip. Try again later");
-              $scope.data.showDelete = !$scope.data.showDelete; 
-            });
+              success(function(data,status,headers,config){
+                console.log("SUCCESS: ");
+                alert("Trip deleted");
+                $scope.data.showDelete = !$scope.data.showDelete;  
+                init();
+              }).
+              error(function(data,status,headers,config){
+                console.log("ERROR: ");
+                console.log(data);
+                alert("Couldn't delete trip. Try again later");
+                $scope.data.showDelete = !$scope.data.showDelete; 
+              });
 
         }
         else{
@@ -245,6 +217,9 @@ angular.module('starter.controllers', ['ionic'])
         }
       };
 
+
+
+      init();
       
   
     
