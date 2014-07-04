@@ -103,6 +103,18 @@ angular.module('starter.controllers', ['ionic'])
       alert("Enter Trip Time");
       return false;
     }
+    if(!trip.trip_occasion)
+    {
+      trip.trip_occasion=" ";
+    }
+    if(!trip.trip_meetup)
+    {
+      trip.trip_meetup=" ";
+    }
+    if(!trip.trip_duration)
+    {
+      trip.trip_duration="Not sure";
+    }
     $scope.sendTrip(trip);
   };
   
@@ -311,12 +323,6 @@ angular.module('starter.controllers', ['ionic'])
   $scope.$on('modal.removed', function() {
     // Execute action
   });
-
-  $scope.viewFriends=[
-    {"id":1, "name":"abc"},
-    {"id":2, "name":"pqr"},
-    {"id":3, "name":"xyz"}
-  ];
     
 })
 

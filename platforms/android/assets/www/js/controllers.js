@@ -25,24 +25,33 @@ angular.module('starter.controllers', ['ionic'])
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('newTripCtrl', function($scope, $http, sharedProperties){
+.controller('newTripCtrl', function($scope, $http, sharedProperties, $ionicModal){
 
   console.log('creating new trip');
 
-  $scope.createTrip = function(trip){
+  $scope.sendTrip = function(trip){
+    ActivityIndicator.show("Creating new trip...");
+    console.log("sending trip");
     
-    console.log(trip);
+    var friendList = [];
 
-    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"friends":"","venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
+    for(var i=0; i< $scope.findFriends.length; i++)
+      if($scope.findFriends[i].selected)
+        friendList.push($scope.findFriends[i].id);
+
+      console.log(friendList);
+
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
-      alert(trip.trip_name+" trip created!");
+      ActivityIndicator.hide();
+      alert("\""+trip.trip_name+"\" trip created!");
       window.location.href="#/app/defaultPage";
     }).
     error(function(data,status,headers,config){
       console.log("ERROR : "+angular.toJson(data));
     });  
-
+  };
    /* LOCAL STORAGE
       var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
       $scope.Trips.push({
@@ -58,81 +67,173 @@ angular.module('starter.controllers', ['ionic'])
     sharedProperties.setTripId();
     window.localStorage.setItem('Trips', angular.toJson(Trips)); */
 
-    window.location.href="#/app/defaultPage";
+  $scope.createTrip = function(trip){
 
+    console.log(trip);
+   
+    if(!trip)
+    {
+      alert("Can't submit empty trip");
+      return false;
+    }
+    if(!trip.trip_name)
+    {
+      alert("Enter Trip Name");
+      return false;
+    }  
+    if(!trip.trip_venue)
+    {
+      alert("Enter Trip Venue");
+      return false;
+    }
+    if(!trip.trip_date)
+    {
+      alert("Enter Trip Date");
+      return false;
+    }
+    else if(trip.trip_date < new Date().toJSON().slice(0,10))
+    {
+      alert("Enter a future date. This date has already passed");
+      return false;
+    }
+
+    if(!trip.trip_timing)
+    {
+      console.log(trip.trip_time);
+      alert("Enter Trip Time");
+      return false;
+    }
+    if(!trip.trip_occasion)
+    {
+      trip.trip_occasion=" ";
+    }
+    if(!trip.trip_meetup)
+    {
+      trip.trip_meetup=" ";
+    }
+    if(!trip.trip_duration)
+    {
+      trip.trip_duration="Not sure";
+    }
+    $scope.sendTrip(trip);
   };
+  
+    $scope.findFriends = JSON.parse(sharedProperties.getFriends());
+    
+
+    $scope.selected = function(item){
+        if(item.selected)
+          return true;
+        else
+          return false;
+    };
+
+
+  $ionicModal.fromTemplateUrl('templates/addFriends.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+
+
 })
+
+
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------
 
+
 .controller('myTripsCtrl', function($scope, $http, sharedProperties) {
   
-    $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
-    
-    //console.log("# of myTrips: " +Object.keys($scope.myTrips).length);
 
-    $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
-    success(function(data,status,headers,config){
-      console.log("SUCCESS: "+angular.toJson(data));
-      sharedProperties.setMyTrips(data);
-      $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
-      console.log("refreshed: "+$scope.myTrips);
-    }).
-    error(function(data,status,headers,config){
-      console.log("ERROR: " + angular.toJson(data));
-    });
-    
-    /*HARD CODED
-      console.log("all trips:");
-      var getMyTrips = localStorage.getItem('Trips');
-      console.log(JSON.parse(getMyTrips)); 
+    var init = function(){
 
-      $scope.myTrips = [
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"Fun Day",
-          trip_occasion:"picnic",
-          trip_venue:"park",
-          trip_date:"2014-07-03",
-          trip_time:"03:30 pm",
-          trip_meetup:"hostel",
-          trip_duration:"a few hours"},
+        $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
+        
+        $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
+          success(function(data,status,headers,config){
+          console.log("SUCCESS: "+angular.toJson(data));
+          sharedProperties.setMyTrips(data);
+          $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
+          console.log("refreshed: "+$scope.myTrips);
+        }).
+        error(function(data,status,headers,config){
+          console.log("ERROR: " + angular.toJson(data));
+        });
+    };
 
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"girls night out",
-          trip_occasion:"bday",
-          trip_venue:"club",
-          trip_date:"2014-06-18",
-          trip_time:"05:45",
-          trip_meetup:"jdfkn",
-          trip_duration:"one hour"},
 
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"Party Day",
-          trip_occasion:"holiday",
-          trip_venue:"house",
-          trip_date:"2014-07-03",
-          trip_time:"03:30",
-          trip_meetup:"hostel",
-          trip_duration:"a few hours"},
+      $scope.updateStatus = function(item, status){
+        console.log(item);
+        $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/updateTripStatus', data:{"userId":sharedProperties.getUserId(), "tripId":item.tripId, "status":status}}).
+          success(function(data,status,headers,config){
+            console.log("SUCCESS: ");
+            alert("Status updated");  
+            init();
+          }).
+          error(function(data,status,headers,config){
+            console.log("ERROR: ");
+            console.log(data);
+            alert("Couldn't update status. Try again later");
+          });
 
-        {
-          id:sharedProperties.getTripId(),
-          trip_name:"Enjoy shopping",
-          trip_occasion:"feeling vetti",
-          trip_venue:"club",
-          trip_date:"2014-06-18",
-          trip_time:"05:45",
-          trip_meetup:"jdfkn",
-          trip_duration:"one hour"},
 
-      ]; */
+      };
 
-      $scope.changeStatus = function(status){
 
-      }
+      $scope.data = {
+        showDelete: false
+      };
+  
+      $scope.onItemDelete = function(item) {
+        console.log(item);
+        console.log(sharedProperties.getUserId());
+        if(confirm("Are you sure you want to leave \""+item.tripName+"\" trip?")){ 
+            $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/leaveTrip', data:{"userId":sharedProperties.getUserId(),"tripId":item.tripId}}).
+              success(function(data,status,headers,config){
+                console.log("SUCCESS: ");
+                alert("Trip deleted");
+                $scope.data.showDelete = !$scope.data.showDelete;  
+                init();
+              }).
+              error(function(data,status,headers,config){
+                console.log("ERROR: ");
+                console.log(data);
+                alert("Couldn't delete trip. Try again later");
+                $scope.data.showDelete = !$scope.data.showDelete; 
+              });
+
+        }
+        else{
+          $scope.data.showDelete = !$scope.data.showDelete;
+          return false;
+        }
+      };
+
+
+
+      init();
+      
+  
     
 })
 
@@ -152,12 +253,38 @@ angular.module('starter.controllers', ['ionic'])
       console.log("ERROR: "+angular.toJson(data));
     });
 
+    $scope.data = {
+        showDelete: false
+      };
+  
+      $scope.onItemDelete = function(item) {
+        console.log(item);
+        if(confirm("Are you sure you want to delete \""+item.tripName+"\" trip?")){ 
+            $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/leaveTrip', data:{"userId":sharedProperties.getUserId(),"tripId":item.tripId}}).
+            success(function(data,status,headers,config){
+              console.log("SUCCESS: ");
+              alert("Trip deleted");
+              $scope.data.showDelete = !$scope.data.showDelete;  
+            }).
+            error(function(data,status,headers,config){
+              console.log("ERROR: ");
+              alert("Couldn't delete trip. Try again later");
+              $scope.data.showDelete = !$scope.data.showDelete; 
+            });
+
+        }
+        else{
+          $scope.data.showDelete = !$scope.data.showDelete;
+          return false;
+        }
+      };
+
 })
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('myTripCtrl', function($scope, $stateParams, sharedProperties) {
+.controller('myTripCtrl', function($scope, $stateParams, sharedProperties, $ionicModal) {
   
   $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
   
@@ -171,6 +298,32 @@ angular.module('starter.controllers', ['ionic'])
   };
 
   init();
+
+  $ionicModal.fromTemplateUrl('templates/viewFriends.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+    
 })
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -194,20 +347,54 @@ angular.module('starter.controllers', ['ionic'])
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-.controller('findFriendsCtrl', function($http, $scope, sharedProperties) {
+.controller('friendsCtrl', function($http, $scope, sharedProperties) {
     
     $scope.findFriends = JSON.parse(sharedProperties.getFriends());
 
+})
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+.controller('socialShareCtrl', function($scope,$window, OpenFB, sharedProperties) {
+     $scope.shareFacebook = function(){
+        window.open(sharedProperties.getFBShareUrl(),"_blank", "location=no");
+     }
+
+     $scope.shareTwitter = function(){
+        window.open(sharedProperties.getTweetUrl(),"_blank", "location=no");
+     }
 })
 
 //------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 .service('sharedProperties', function(){
 
+  var app_id = '249034425292668';
+  var redirect_uri = 'http://localhost:8100/oauthcallback.html';
+  if(window.cordova) {
+    app_id = "467674736710937";
+    redirect_uri = "https://www.facebook.com/connect/login_success.html";
+  }
+
   var baseUrl = "https://nodejs-shoppingbuddies.rhcloud.com";
+  var fbShareURL = "https://www.facebook.com/dialog/feed?app_id=" + app_id +
+                   "&link=http%3A%2F%2Fwww.facebook.com%2Fshoppingbuddiesapp" +
+                   "&name=Shopping+Buddies&description=Its+really+cool+app.+Check+out+buddies.+Lets+shop%21%21%21%21&" +
+                   "redirect_uri=http://www.facebook.com";
+
+  var tweetURL = "https://twitter.com/intent/tweet?text=Hi+shopping+buddies%2C+check+this+out.+%23shoppingbuddies";
   //var tripId = 1;
 
   return {
+        getFBShareUrl: function(){
+           return fbShareURL;
+        },
+        getTweetUrl: function(){
+           return tweetURL;
+        },
+        getTitle: function(){
+
+        },
         getLoginStatus: function() {
             return window.localStorage.getItem("isLoggedIn");
         },
@@ -334,11 +521,11 @@ var LogoutCtrl = function($scope, OpenFB, sharedProperties,$ionicViewService){
   
   $scope.logout = function(){
     ActivityIndicator.show("Logging out...");
-     OpenFB.logout()
+    $ionicViewService.clearHistory();
+    OpenFB.logout()
     sharedProperties.setLoginStatus(false);
     window.localStorage.clear();
     window.location.href = "#/app/login";
-     $ionicViewService.clearHistory();
     ActivityIndicator.hide();
   }
 

@@ -1,0 +1,39 @@
+
+<ion-view title="Select Friends" style="background-image:url('../img/bgImgShop.jpg'); background-position: center bottom;">
+
+   <ion-nav-bar class="bar-royal">
+
+        <ion-nav-buttons side="right">
+          <button class="button button-small button-calm" ng-click="closeModal()">
+
+            <div ng-show="(findFriends|filter:selected).length>0">
+              Add {{(findFriends|filter:selected).length}}
+            </div>
+            <div ng-hide="(findFriends|filter:selected).length>0">
+              Back
+            </div>
+            
+          </button>
+        </ion-nav-buttons>
+
+
+  </ion-nav-bar>
+   <ion-content class="has-header">
+    <ion-list>
+      <ion-item ng-repeat="findFriend in findFriends">
+      
+      <li class="item item-checkbox" >
+        <label class="checkbox">
+            <input type="checkbox" ng-model="findFriend.selected">
+        </label>
+        <div class="item item-thumbnail-right">
+            <img src ="http://graph.facebook.com/{{findFriend.id}}/picture?type=small" alt = "{{findFriend.name}}">
+            <br><h2>{{findFriend.name}}</h2>
+        </div>
+      </li>
+
+      </ion-item> 
+    </ion-list>
+  </ion-content>
+</ion-view>
+

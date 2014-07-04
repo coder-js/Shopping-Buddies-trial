@@ -5,27 +5,36 @@
         </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header" has-header="true" padding="false">
-
-    <div style="width:65%; float:left;">
+    
+    <div style="float:left; padding-left:10px; padding-top:5px;">
         <h1 style="text-transform:uppercase;"><b><u>{{trip.tripName}}</u></b></h1>
         <br>
     	<h3><b>Bcuz: </b>{{trip.occasion}}
         <br><b>On: </b>{{trip.date | date: 'MMM d, y &nbsp&nbsp h:mm a'}}
         <br><b>We're going to: </b>{{trip.venues}}
         <br><b>Duration: </b>{{trip.duration}}
-        <br><b>Meet up at: </b>{{trip.meetup}} ... Don't be late!!
-        <br><br><b>Trip Created By: </b>{{trip.createdBy}}</h3>
-    </div>
+        <br><b>Meet up at: </b>{{trip.meetup}} <br>... Don't be late!!
+        <br>
+          <h3><b>Your Status: </b></h3>
+            <div ng-show="trip.status==1">
+              <i class="ion-checkmark-round" style="color:#19DA3D; font-size:20px;">Yes</i>
+            </div>
+            <div ng-show="trip.status==0">
+              <i class="ion-checkmark-round" style="color:#F00707; font-size:20px;">No</i>
+            </div>
+            <div ng-show="trip.status==2">
+              <i class="ion-checkmark-round" style="color:#FFCC00; font-size:20px;">Maybe</i>
+            </div>
 
-    <div style="margin-right:10%;">
-    	<br><br>
-    	<h3><b>Our Shopping Buddies!</b></h3>
-    	<br>friends list 
+        <br><br><b>Trip Created By: </b>{{trip.createdBy}}</h3><br><br>
+        <div>
+          <button class="button button-balanced button-small" ng-click="openModal()">View friends attending the trip</button>
+        </div>
     </div>
 
   </ion-content>
 </ion-view>
 
 <div class="bar bar-footer bar-royal">
-  <h3 class="title">For the true shopaholics!</h3>
+  <h2 class="title">For the true shopaholics!</h2>
 </div>
