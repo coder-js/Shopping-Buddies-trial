@@ -3,15 +3,11 @@
 
    <ion-nav-bar class="bar-royal">
 
-        <ion-nav-buttons side="left">
-            <b><h2> {{(findFriends|filter:selected).length}} </h2></b>
-        </ion-nav-buttons>
-
         <ion-nav-buttons side="right">
           <button class="button button-small button-calm" ng-click="closeModal()">
 
             <div ng-show="(findFriends|filter:selected).length>0">
-              Add
+              Add {{(findFriends|filter:selected).length}}
             </div>
             <div ng-hide="(findFriends|filter:selected).length>0">
               Back

@@ -3,9 +3,13 @@
         <ion-nav-buttons side="left">
           <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
         </ion-nav-buttons>
+        <ion-nav-buttons side="right">
+          <button class="button button-icon icon ion-ios7-minus-outline" ng-click="data.showDelete = !data.showDelete;">Leave trip?</button>
+        </ion-nav-buttons>
+
   </ion-nav-bar>
   <ion-content class="has-header" has-header="true" padding="false">
-    <ion-list>
+    <ion-list show-delete="data.showDelete">
       
       <ion-item ng-repeat="myTrip in myTrips" href="#/app/myTrips/{{myTrip.tripId}}">
 
@@ -16,22 +20,30 @@
           <br><br>Created By: {{myTrip.createdBy}}
         </div>
 
-        <div style="margin-right:10%;">
-          <button class="button button-assertive button-small">
-            Leave Trip?
-          </button>
-          <br><br>
-          <b>Trip Status?</b><br>
-            <button class="button button-small button-outline button-balanced">
-              Yes
-            </button>
-            <button class="button button-small button-outline button-assertive">
-              No
-            </button>
-            <button class="button button-small button-outline button-calm">
-              Maybe
-            </button>
+        <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(myTrip)">
+        </ion-delete-button>
+
+        <ion-option-button class="button-icon ion-checkmark-round" 
+            style=" display:block !important; background-color:lime !important; height: calc(103px / 3) !important; height: -webkit-calc(103px / 3) !important; min-height: 0 !important;
+                font-size:10px !important;" ng-click="">
+            yes
+          </ion-option-button>
+          <ion-option-button class="button-icon ion-close-round"
+              style=" display:block !important; background-color:pink !important; height: calc(103px / 3) !important; height: -webkit-calc(103px / 3) !important; min-height: 0 !important;
+                font-size:10px !important;" ng-click="">
+            no
+          </ion-option-button>
+          <ion-option-button class="button-icon ion-help"
+                style=" display:block !important; background-color:yellow !important; height: calc(103px / 3) !important; height: -webkit-calc(103px / 3) !important; min-height: 0 !important;
+                font-size:10px !important;" ng-click="">
+            maybe
+          </ion-option-button>
+        <div style="padding-right:10%;">
+            <i class="ion-star" style="color:gold"></i>
+            <br><h2>Your Status: </h2><i class="{{icon}}" style="color:{{icon-color}}"></i>
+            <br><h4>To change status swipe left</h4>
         </div>
+
       </ion-item> 
 
     </ion-list>

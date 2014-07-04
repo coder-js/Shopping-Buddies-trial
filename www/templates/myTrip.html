@@ -5,8 +5,8 @@
         </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header" has-header="true" padding="false">
-
-    <div style="width:65%; float:left;">
+    
+    <div style="float:left;">
         <h1 style="text-transform:uppercase;"><b><u>{{trip.tripName}}</u></b></h1>
         <br>
     	<h3><b>Bcuz: </b>{{trip.occasion}}
@@ -15,17 +15,20 @@
         <br><b>Duration: </b>{{trip.duration}}
         <br><b>Meet up at: </b>{{trip.meetup}} ... Don't be late!!
         <br><br><b>Trip Created By: </b>{{trip.createdBy}}</h3>
+        <div>
+          <button class="button button-balanced button-small" ng-click="openModal()">View friends attending trip</button>
+        <div>
     </div>
 
-    <div style="margin-right:10%;">
+    <div style="float:right; padding-right:5%">
     	<br><br>
-    	<h3><b>Our Shopping Buddies!</b></h3>
-    	<br>friends list 
+    	<h3><b>Your Status</b></h3>
+    	<i class="{{icon}}" style="color:{{icon-color}}"></i>
     </div>
 
   </ion-content>
 </ion-view>
 
 <div class="bar bar-footer bar-royal">
-  <h3 class="title">For the true shopaholics!</h3>
+  <h2 class="title">For the true shopaholics!</h2>
 </div>
