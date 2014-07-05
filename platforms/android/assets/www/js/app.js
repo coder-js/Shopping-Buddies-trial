@@ -70,17 +70,6 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
       }
     })
 
-    .state('app.findFriends', {
-      url: "/findFriends",
-      views: {
-        'menuContent' :{
-          templateUrl: "templates/findFriends.html", 
-          //controller: "findFriendsCtrl"
-        }
-      }
-    })
-
-    
     .state('app.myFriends', {
       url: "/myFriends",
       views: {

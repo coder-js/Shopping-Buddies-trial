@@ -17,11 +17,6 @@ angular.module('starter.controllers', ['ionic'])
   
 })
 
-//----------------------------------------------------------------------------------------------------------------------------------------
-
-.controller('defaultCtrl', function($scope, sharedProperties){
-  
-})
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -52,21 +47,7 @@ angular.module('starter.controllers', ['ionic'])
       console.log("ERROR : "+angular.toJson(data));
     });  
   };
-   /* LOCAL STORAGE
-      var Trips = $scope.Trips=JSON.parse(localStorage.getItem('Trips') || '[]');
-      $scope.Trips.push({
-      id:sharedProperties.getTripId(),
-      trip_name:trip.name,
-      trip_occasion:trip.occasion,
-      trip_venue:trip.venue,
-      trip_date:trip.date,
-      trip_time:trip.timing,
-      trip_meetup:trip.meetup,
-      trip_duration:trip.duration
-    });
-    sharedProperties.setTripId();
-    window.localStorage.setItem('Trips', angular.toJson(Trips)); */
-
+   
   $scope.createTrip = function(trip){
 
     console.log(trip);
@@ -241,17 +222,21 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('pastTripsCtrl', function($http, $scope, $stateParams, sharedProperties) {
     
-    $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
-    $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=1'}).
-    success(function(data,status,headers,config){
-      console.log("SUCCESS: "+angular.toJson(data));
-      sharedProperties.setPastTrips(data);
-      $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
-      
-    }).
-    error(function(data,status,headers,config){
-      console.log("ERROR: "+angular.toJson(data));
-    });
+    
+    var init = function(){
+        $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
+        $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=1'}).
+        success(function(data,status,headers,config){
+          console.log("SUCCESS: "+angular.toJson(data));
+          sharedProperties.setPastTrips(data);
+          $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
+          
+        }).
+        error(function(data,status,headers,config){
+          console.log("ERROR: "+angular.toJson(data));
+        });
+    };
+
 
     $scope.data = {
         showDelete: false
@@ -278,6 +263,8 @@ angular.module('starter.controllers', ['ionic'])
           return false;
         }
       };
+
+      init();
 
 })
 
@@ -349,7 +336,11 @@ angular.module('starter.controllers', ['ionic'])
 
 .controller('friendsCtrl', function($http, $scope, sharedProperties) {
     
-    $scope.findFriends = JSON.parse(sharedProperties.getFriends());
+    var init = function(){
+      $scope.findFriends = JSON.parse(sharedProperties.getFriends());
+    };
+
+    init();
 
 })
 
@@ -466,10 +457,10 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
   sharedProperties.setLoginStatus(false);
   
   window.localStorage.clear();
-  
+
   $scope.login = function() {
  
-    OpenFB.login('email,read_stream,publish_stream,user_friends').then(function(response) {
+    OpenFB.login('email,publish_stream,user_friends').then(function(response) {
       refresh();
     },function(){
     });
