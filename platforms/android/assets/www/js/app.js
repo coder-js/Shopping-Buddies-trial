@@ -64,8 +64,7 @@ angular.module('starter', ['ionic', 'starter.controllers','openfb'])
       url: "/defaultPage",
       views: {
         'menuContent' :{
-          templateUrl: "templates/defaultPage.html",
-          controller: "defaultCtrl"
+          templateUrl: "templates/defaultPage.html"
         }
       }
     })
