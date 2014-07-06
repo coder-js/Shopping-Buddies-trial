@@ -5,23 +5,24 @@
         </ion-nav-buttons>
   </ion-nav-bar>
   <ion-content class="has-header">
+    <form>
         <label class="item item-input">
-          <input type="text" placeholder="Event Name" ng-model="trip.trip_name">
+          <input type="text" placeholder="Event Name" ng-model="trip.trip_name" size="100">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Occasion" ng-model="trip.trip_occasion">
+          <input type="text" placeholder="Occasion" ng-model="trip.trip_occasion" size="100">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Venue" ng-model="trip.trip_venue">
+          <input type="text" placeholder="Venue" ng-model="trip.trip_venue" size="1000">
         </label>
         <label class="item item-input">
-          <input type="date" placeholder="Date" ng-model="trip.trip_date">
+          Date<input type="date" placeholder="Date" ng-model="trip.trip_date">
         </label>
         <label class="item item-input">
-          <input type="time" placeholder="Time" ng-model="trip.trip_timing">
+          Time<input type="time" placeholder="Time" ng-model="trip.trip_timing">
         </label>
         <label class="item item-input">
-          <input type="text" placeholder="Meet up venue?" ng-model="trip.trip_meetup">
+          <input type="text" placeholder="Meet up?" ng-model="trip.trip_meetup">
         </label>
         <div class="list">
           <label class="item item-input item-select">
@@ -37,12 +38,13 @@
           </label>
         </div>
         <label>
-            <button class="button icon-right ion-chevron-right button-balanced button-block button-small" ng-click="openModal()">Add friends</button>
+            <button class="button icon-right ion-chevron-right button-balanced button-block button-small" ng-click="openModal()">Add friends ({{(findFriends|filter:selected).length}})</button>
         </label>
         <label>
             <button class="button button-block button-calm" ng-click="createTrip(trip)" >Submit</button
         </label>
-      </ion-content>
+    </form>
+  </ion-content>
 </ion-view>
 
 <div class="bar bar-footer bar-royal">

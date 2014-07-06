@@ -164,10 +164,12 @@ angular.module('starter.controllers', ['ionic'])
 
 
       $scope.updateStatus = function(item, status){
+        ActivityIndicator.show("Updating status...");
         console.log(item);
         $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/updateTripStatus', data:{"userId":sharedProperties.getUserId(), "tripId":item.tripId, "status":status}}).
           success(function(data,status,headers,config){
             console.log("SUCCESS: ");
+            ActivityIndicator.hide();
             alert("Status updated");  
             init();
           }).
@@ -461,6 +463,7 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
   $scope.login = function() {
  
     OpenFB.login('email,publish_stream,user_friends').then(function(response) {
+
       refresh();
     },function(){
     });
