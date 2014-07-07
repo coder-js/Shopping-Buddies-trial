@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['ionic'])
 
 
-.controller('AppCtrl', function($scope, sharedProperties,OpenFB) {
+.controller('AppCtrl', function($scope, sharedProperties,OpenFB, $ionicModal) {
   
   $scope.$on("loginsuccess", function(){
       $scope.loginName = sharedProperties.getUserName();
@@ -14,6 +14,60 @@ angular.module('starter.controllers', ['ionic'])
   $scope.loginName = sharedProperties.getUserName();
   
   $scope.loginDP = sharedProperties.getUserDP();
+
+
+   $scope.source;
+   $scope.num;
+
+  
+  $scope.openModal = function() {
+    $scope.source="img/tour/1.png";
+    $scope.num=1;
+    console.log("opening.."+$scope.source);
+    
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+ 
+
+  $scope.slideshowUp =function(){
+    $scope.num=$scope.num+1;
+    if ($scope.num==14)
+      $scope.num=1;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);
+    
+  };
+
+  $scope.slideshowBack =function(){
+    $scope.num=$scope.num-1;
+    if ($scope.num==0)
+      $scope.num=13;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);  
+  };
+
+   $ionicModal.fromTemplateUrl('templates/tour.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
   
 })
 
@@ -536,34 +590,6 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $io
     // Execute action
   });
  
- 
-  
-  /*//img1 = new Image ();
-  var img1 = "img/tour/1.png";
-  //img2 = new Image ();
-  var img2 = "img/tour/2.png";
-  //img3 = new Image ();
-  var img3 = "img/tour/3.png";
-  //img4 = new Image ();
-  var img4 = "img/tour/4.png";
-  //img5 = new Image ();
-  var img5 = "img/tour/5.png";
-  //img6 = new Image ();
-  var img6 = "img/tour/6.png";
-  //img7 = new Image ();
-  var img7 = "img/tour/7.png";
-  //img8 = new Image ();
-  var img8 = "img/tour/8.png";
-  //img9 = new Image ();
-  var img9 = "img/tour/9.png";
-  //img10 = new Image ();
-  var img10 = "img/tour/10.png";
-  //img11 = new Image ();
-  var img11 = "img/tour/11.png";
-  //img12 = new Image ();
-  var img12 = "img/tour/12.png"; 
-  //img13 = new Image ();
-  var img13 = "img/tour/13.png";*/
 
   $scope.slideshowUp =function(){
     $scope.num=$scope.num+1;
