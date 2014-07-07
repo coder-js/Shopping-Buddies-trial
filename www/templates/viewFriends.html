@@ -11,7 +11,7 @@
 
    <ion-content class="has-header">
     <ion-list>
-       <ion-item ng-repeat="viewFriend in trip.attendees | filter: {status:1}">
+       <ion-item ng-repeat="viewFriend in trip.attendees | filter: {status:1} | orderBy:orderby">
 
         <div class="item item-thumbnail-left">
             <img src ="http://graph.facebook.com/{{viewFriend.fBId}}/picture?type=small" alt = "{{viewFriend.name}}">
