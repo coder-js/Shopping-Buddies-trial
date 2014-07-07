@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['ionic'])
 
 
-.controller('AppCtrl', function($scope, sharedProperties,OpenFB) {
+.controller('AppCtrl', function($scope, sharedProperties,OpenFB, $ionicModal) {
   
   $scope.$on("loginsuccess", function(){
       $scope.loginName = sharedProperties.getUserName();
@@ -14,6 +14,60 @@ angular.module('starter.controllers', ['ionic'])
   $scope.loginName = sharedProperties.getUserName();
   
   $scope.loginDP = sharedProperties.getUserDP();
+
+
+   $scope.source;
+   $scope.num;
+
+  
+  $scope.openModal = function() {
+    $scope.source="img/tour/1.png";
+    $scope.num=1;
+    console.log("opening.."+$scope.source);
+    
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+ 
+
+  $scope.slideshowUp =function(){
+    $scope.num=$scope.num+1;
+    if ($scope.num==14)
+      $scope.num=1;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);
+    
+  };
+
+  $scope.slideshowBack =function(){
+    $scope.num=$scope.num-1;
+    if ($scope.num==0)
+      $scope.num=13;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);  
+  };
+
+   $ionicModal.fromTemplateUrl('templates/tour.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
   
 })
 
@@ -34,9 +88,10 @@ angular.module('starter.controllers', ['ionic'])
       if($scope.findFriends[i].selected)
         friendList.push($scope.findFriends[i].id);
 
-      console.log(trip.trip_date+trip.trip_timing);
+      console.log(trip.trip_date);
+      console.log("date :"+trip.trip_date+" "+trip.trip_timing+":00");
 
-    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing+":00"}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
       ActivityIndicator.hide();
@@ -134,7 +189,6 @@ angular.module('starter.controllers', ['ionic'])
   $scope.$on('modal.removed', function() {
     // Execute action
   });
-
 
 })
 
@@ -453,7 +507,7 @@ angular.module('starter.controllers', ['ionic'])
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
+var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $ionicModal) {
 
   var accessToken;
   sharedProperties.setLoginStatus(false);
@@ -507,7 +561,60 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
       console.log(response);
     });
 
-  }  
+  } 
+
+   $scope.source;
+   $scope.num;
+
+  
+  $scope.openModal = function() {
+    $scope.source="img/tour/1.png";
+    $scope.num=1;
+    console.log("opening.."+$scope.source);
+    
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+ 
+
+  $scope.slideshowUp =function(){
+    $scope.num=$scope.num+1;
+    if ($scope.num==14)
+      $scope.num=1;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);
+    
+  };
+
+  $scope.slideshowBack =function(){
+    $scope.num=$scope.num-1;
+    if ($scope.num==0)
+      $scope.num=13;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);  
+  };
+
+   $ionicModal.fromTemplateUrl('templates/tour.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+
 };
 
 

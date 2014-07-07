@@ -515,6 +515,11 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $io
   window.localStorage.clear();
 
   $scope.login = function() {
+
+    if(window.cordova && navigator.connection.type == Connection.NONE){
+      alert("No internet connection!");
+      return false;
+    }
  
     OpenFB.login('email,publish_stream,user_friends').then(function(response) {
 
