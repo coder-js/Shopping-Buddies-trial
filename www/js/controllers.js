@@ -512,12 +512,7 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $io
    $scope.source;
    $scope.num;
 
-   $ionicModal.fromTemplateUrl('templates/tour.html', {
-    scope: $scope,
-    animation: 'slide-in-up'
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
+  
   $scope.openModal = function() {
     $scope.source="img/tour/1.png";
     $scope.num=1;
@@ -570,7 +565,7 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $io
   //img13 = new Image ();
   var img13 = "img/tour/13.png";*/
 
-  var slideshowUp =function(){
+  $scope.slideshowUp =function(){
     $scope.num=$scope.num+1;
     if ($scope.num==14)
       $scope.num=1;
@@ -579,14 +574,20 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $io
     
   };
 
-  var slideshowBack =function(){
+  $scope.slideshowBack =function(){
     $scope.num=$scope.num-1;
     if ($scope.num==0)
       $scope.num=13;
     $scope.source="img/tour/"+$scope.num+".png";
-    console.log("opening.."+$scope.source);
-    
+    console.log("opening.."+$scope.source);  
   };
+
+   $ionicModal.fromTemplateUrl('templates/tour.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
 
 };
 
