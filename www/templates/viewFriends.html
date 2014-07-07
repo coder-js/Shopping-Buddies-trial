@@ -14,7 +14,7 @@
        <ion-item ng-repeat="viewFriend in trip.attendees | filter: {status:1}">
 
         <div class="item item-thumbnail-left">
-            <img src ="http://graph.facebook.com/{{viewFriend.id}}/picture?type=small" alt = "{{viewFriend.name}}">
+            <img src ="http://graph.facebook.com/{{viewFriend.fBId}}/picture?type=small" alt = "{{viewFriend.name}}">
             <br><h2>{{viewFriend.name}}</h2>
         </div>
 
