@@ -516,13 +516,25 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $io
 
     ActivityIndicator.show("Preparing...");
     OpenFB.get("/me").success(function(response) {
-        refresh();
+        ActivityIndicator.hide();
+        ActivityIndicator.show("Logging in...");
+        OpenFB.login('email,publish_stream,user_friends').then(function(response) {
+          refresh();
+        },function(){
+          ActivityIndicator.hide();
+        });
     }).error(function(response) {
         ActivityIndicator.hide();
     });
     
 
   $scope.login = function() {
+
+    if(window.cordova && navigator.connection.type == Connection.NONE){
+      alert("No internet connection!");
+      return false;
+    }
+ 
     ActivityIndicator.show("Logging in...");
     OpenFB.login('email,publish_stream,user_friends').then(function(response) {
       refresh();

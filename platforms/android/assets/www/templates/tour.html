@@ -1,0 +1,27 @@
+<ion-view title="Tour" style="background-image:url('../img/bgImgShop.jpg'); background-position: center bottom;">
+
+    <ion-nav-bar class="bar-royal">
+		<ion-nav-buttons side="right">
+          <button class="button button-icon ion-close-circled" ng-click="closeModal()">
+          </button>
+        </ion-nav-buttons>
+    </ion-nav-bar>
+
+  	
+    <ion-content class="has-header">
+		<img src="{{source}}" name="pics" height="100%" width="100%">
+	</ion-content>
+	
+</ion-view>
+<ion-footer-bar class="bar-royal">
+  <div class="buttons" style="float:left;">
+		<button class="button button-icon ion-arrow-left-c" ng-click="slideshowBack()">Back
+        </button>
+  </div>
+  <h1 class="title"></h1>
+  <div class="buttons" style="float:right;">
+    	<button class="button button-icon ion-arrow-right-c" ng-click="slideshowUp()">Next
+        </button>
+  </div>
+</ion-footer-bar>
+
