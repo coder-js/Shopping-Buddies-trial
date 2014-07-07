@@ -1,16 +1,31 @@
 <ion-view title="Tour" style="background-image:url('../img/bgImgShop.jpg'); background-position: center bottom;">
 
-     <ion-nav-bar class="bar-royal">
+    <ion-nav-bar class="bar-royal">
 		<ion-nav-buttons side="right">
           <button class="button button-icon ion-close-circled" ng-click="closeModal()">
           </button>
         </ion-nav-buttons>
-  	</ion-nav-bar>
+        <!--
+        <ion-nav-buttons side="left">
+          <button class="button button-icon ion-arrow-left-c" ng-click="slideshowBack()">Back
+          </button>
+        </ion-nav-buttons>
+
+  		</ion-nav-bar><ion-nav-buttons side="left">
+          <button class="button button-icon ion-arrow-right-c" ng-click="slideshowUp()">Next
+          </button>
+        </ion-nav-buttons>-->
+    </ion-nav-bar>
+
   	
     <ion-content class="has-header">
-		<img src="{{source}}" name="pics" height="100">
-		<button class="button button-icon ion-close-circled" ng-click="slideshowBack()">Back
-		<button class="button button-icon ion-close-circled" ng-click="slideshowUp()">Next
+		<img src="{{source}}" name="pics" height="100%" width="100%">
+		<button class="button" on-drag-right="slideshowBack()">
+          </button>
+         <button class="button" on-drag-left="slideshowUp()">
+          </button>
+		<!--<button class="button button-icon ion-close-circled" ng-click="slideshowBack()">Back
+		<button class="button button-icon ion-close-circled" ng-click="slideshowUp()">Next-->
 
 	</ion-content>
 </ion-view>
