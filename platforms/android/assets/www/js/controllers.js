@@ -514,20 +514,38 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $io
   
   window.localStorage.clear();
 
-  $scope.login = function() {
- 
-    OpenFB.login('email,publish_stream,user_friends').then(function(response) {
+    ActivityIndicator.show("Preparing...");
+    OpenFB.get("/me").success(function(response) {
+        ActivityIndicator.hide();
+        ActivityIndicator.show("Logging in...");
+        OpenFB.login('email,publish_stream,user_friends').then(function(response) {
+          refresh();
+        },function(){
+          ActivityIndicator.hide();
+        });
+    }).error(function(response) {
+        ActivityIndicator.hide();
+    });
+    
 
+  $scope.login = function() {
+
+    if(window.cordova && navigator.connection.type == Connection.NONE){
+      alert("No internet connection!");
+      return false;
+    }
+ 
+    ActivityIndicator.show("Logging in...");
+    OpenFB.login('email,publish_stream,user_friends').then(function(response) {
       refresh();
     },function(){
+      ActivityIndicator.hide();
     });
   }
 
   function refresh() {
     OpenFB.get("/me?fields=id,name,picture").success( 
       function(response) {
-        ActivityIndicator.show("Logging in...");
-
         var id = response.id;
         sharedProperties.setLoginStatus(true);
         sharedProperties.setUserName(response.name);

@@ -25,11 +25,11 @@
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"ActivityIndicator\"><param name=\"android-package\" value=\"org.apache.cordova.plugin.ActivityIndicator\" /></feature>",
+                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
                             "count": 1
                         },
                         {
-                            "xml": "<feature name=\"NetworkStatus\"><param name=\"android-package\" value=\"org.apache.cordova.networkinformation.NetworkManager\" /></feature>",
+                            "xml": "<feature name=\"ActivityIndicator\"><param name=\"android-package\" value=\"org.apache.cordova.plugin.ActivityIndicator\" /></feature>",
                             "count": 1
                         }
                     ]
@@ -49,25 +49,25 @@
     },
     "installed_plugins": {
         "com.bez4pieci.cookies": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.jayti.shoppingbuddies"
         },
         "com.ionic.keyboard": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.jayti.shoppingbuddies"
         },
         "org.apache.cordova.console": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.jayti.shoppingbuddies"
         },
         "org.apache.cordova.device": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.jayti.shoppingbuddies"
         },
         "org.apache.cordova.inappbrowser": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
-        },
-        "org.apache.cordova.plugin.ActivityIndicator": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.jayti.shoppingbuddies"
         },
         "org.apache.cordova.network-information": {
-            "PACKAGE_NAME": "com.ionicframework.starter"
+            "PACKAGE_NAME": "com.jayti.shoppingbuddies"
+        },
+        "org.apache.cordova.plugin.ActivityIndicator": {
+            "PACKAGE_NAME": "com.jayti.shoppingbuddies"
         }
     },
     "dependent_plugins": {}
