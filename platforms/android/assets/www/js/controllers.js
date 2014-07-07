@@ -34,7 +34,7 @@ angular.module('starter.controllers', ['ionic'])
       if($scope.findFriends[i].selected)
         friendList.push($scope.findFriends[i].id);
 
-      console.log(friendList);
+      console.log(trip.trip_date+trip.trip_timing);
 
     $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){

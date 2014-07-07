@@ -34,9 +34,10 @@ angular.module('starter.controllers', ['ionic'])
       if($scope.findFriends[i].selected)
         friendList.push($scope.findFriends[i].id);
 
-      console.log(trip.trip_date+trip.trip_timing);
+      console.log(trip.trip_date);
+      console.log("date :"+trip.trip_date+" "+trip.trip_timing+":00");
 
-    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing+":00"}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
       ActivityIndicator.hide();
@@ -134,7 +135,6 @@ angular.module('starter.controllers', ['ionic'])
   $scope.$on('modal.removed', function() {
     // Execute action
   });
-
 
 })
 
@@ -453,7 +453,7 @@ angular.module('starter.controllers', ['ionic'])
 //-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
+var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties, $ionicModal) {
 
   var accessToken;
   sharedProperties.setLoginStatus(false);
@@ -507,7 +507,87 @@ var LoginCtrl = function ($scope,$rootScope,OpenFB, $http, sharedProperties) {
       console.log(response);
     });
 
-  }  
+  } 
+
+   $scope.source;
+   $scope.num;
+
+   $ionicModal.fromTemplateUrl('templates/tour.html', {
+    scope: $scope,
+    animation: 'slide-in-up'
+  }).then(function(modal) {
+    $scope.modal = modal;
+  });
+  $scope.openModal = function() {
+    $scope.source="img/tour/1.png";
+    $scope.num=1;
+    console.log("opening.."+$scope.source);
+    
+    $scope.modal.show();
+  };
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  };
+  //Cleanup the modal when we're done with it!
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+  // Execute action on hide modal
+  $scope.$on('modal.hidden', function() {
+    // Execute action
+  });
+  // Execute action on remove modal
+  $scope.$on('modal.removed', function() {
+    // Execute action
+  });
+ 
+ 
+  
+  /*//img1 = new Image ();
+  var img1 = "img/tour/1.png";
+  //img2 = new Image ();
+  var img2 = "img/tour/2.png";
+  //img3 = new Image ();
+  var img3 = "img/tour/3.png";
+  //img4 = new Image ();
+  var img4 = "img/tour/4.png";
+  //img5 = new Image ();
+  var img5 = "img/tour/5.png";
+  //img6 = new Image ();
+  var img6 = "img/tour/6.png";
+  //img7 = new Image ();
+  var img7 = "img/tour/7.png";
+  //img8 = new Image ();
+  var img8 = "img/tour/8.png";
+  //img9 = new Image ();
+  var img9 = "img/tour/9.png";
+  //img10 = new Image ();
+  var img10 = "img/tour/10.png";
+  //img11 = new Image ();
+  var img11 = "img/tour/11.png";
+  //img12 = new Image ();
+  var img12 = "img/tour/12.png"; 
+  //img13 = new Image ();
+  var img13 = "img/tour/13.png";*/
+
+  var slideshowUp =function(){
+    $scope.num=$scope.num+1;
+    if ($scope.num==14)
+      $scope.num=1;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);
+    
+  };
+
+  var slideshowBack =function(){
+    $scope.num=$scope.num-1;
+    if ($scope.num==0)
+      $scope.num=13;
+    $scope.source="img/tour/"+$scope.num+".png";
+    console.log("opening.."+$scope.source);
+    
+  };
+
 };
 
 
