@@ -24,7 +24,7 @@
     <feature name="ActivityIndicator">
         <param name="android-package" value="org.apache.cordova.plugin.ActivityIndicator" />
     </feature>
-    <name>ShoppingBuddies</name>
+    <name>Shopping Buddies</name>
     <description>
        Shopping Buddies
     </description>
