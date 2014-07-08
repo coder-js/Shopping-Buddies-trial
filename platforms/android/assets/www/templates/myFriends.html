@@ -7,7 +7,7 @@
   <ion-content class="has-header">
     <ion-list>
       
-      <ion-item ng-repeat="findFriend in findFriends">
+      <ion-item ng-repeat="findFriend in findFriends|orderBy:orderby">
 
         <div class="item item-thumbnail-left">
             <img src ="http://graph.facebook.com/{{findFriend.id}}/picture?type=small" alt = "{{findFriend.name}}">

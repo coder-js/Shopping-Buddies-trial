@@ -29,11 +29,12 @@
             <div class="input-label">
               Duration
             </div>
-            <select ng-model="trip.trip_duration">
-              <option value="half an hour">Half an hour</option>
-              <option value="one hour">One hour</option>
-              <option value="few hours">A few hours</option>
-              <option value="default">Who cares! It's shopping!</option>
+            <select ng-model="trip.trip_duration" ng-init="trip.trip_duration=3">
+              <option value="1">Half an hour</option>
+              <option value="2">One hour</option>
+              <option value="3">A few hours</option>
+              <option value="4">Who cares! It's shopping!</option>
+              <option value="5">Not sure</option>
             </select>
           </label>
         </div>

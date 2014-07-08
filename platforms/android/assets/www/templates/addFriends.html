@@ -20,7 +20,7 @@
   </ion-nav-bar>
    <ion-content class="has-header">
     <ion-list>
-      <ion-item ng-repeat="findFriend in findFriends">
+      <ion-item ng-repeat="findFriend in findFriends|orderBy:orderby">
       
       <li class="item item-checkbox" >
         <label class="checkbox">

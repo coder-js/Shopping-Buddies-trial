@@ -173,6 +173,7 @@ angular.module('starter.controllers', ['ionic'])
   });
   $scope.openModal = function() {
     $scope.modal.show();
+    $scope.orderby="name";
   };
   $scope.closeModal = function() {
     $scope.modal.hide();
@@ -202,6 +203,7 @@ angular.module('starter.controllers', ['ionic'])
 
     var init = function(){
 
+        $scope.orderby="date";
         $scope.myTrips = JSON.parse(sharedProperties.getMyTrips());
         
         $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=0'}).
@@ -280,6 +282,8 @@ angular.module('starter.controllers', ['ionic'])
     
     
     var init = function(){
+
+        $scope.orderby="date";
         $scope.pastTrips = JSON.parse(sharedProperties.getPastTrips());
         $http({method: 'GET', url:sharedProperties.getBaseUrl()+'/trips?userId='+sharedProperties.getUserId()+'&past=1'}).
         success(function(data,status,headers,config){
@@ -350,6 +354,7 @@ angular.module('starter.controllers', ['ionic'])
   });
   $scope.openModal = function() {
     $scope.modal.show();
+    $scope.orderby="name";
   };
   $scope.closeModal = function() {
     $scope.modal.hide();
@@ -393,6 +398,7 @@ angular.module('starter.controllers', ['ionic'])
 .controller('friendsCtrl', function($http, $scope, sharedProperties) {
     
     var init = function(){
+      $scope.orderby="name";
       $scope.findFriends = JSON.parse(sharedProperties.getFriends());
     };
 

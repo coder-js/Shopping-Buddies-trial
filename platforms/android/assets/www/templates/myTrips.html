@@ -11,7 +11,7 @@
   <ion-content class="has-header" has-header="true" padding="false">
     <ion-list show-delete="data.showDelete">
       
-      <ion-item ng-repeat="myTrip in myTrips" href="#/app/myTrips/{{myTrip.tripId}}">
+      <ion-item ng-repeat="myTrip in myTrips|orderBy:orderby" href="#/app/myTrips/{{myTrip.tripId}}">
 
         <div style="width:70%; float:left;">
           <h2><b>{{myTrip.tripName}}</b></h2>
