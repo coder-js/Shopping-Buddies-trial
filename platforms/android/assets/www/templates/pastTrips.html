@@ -16,11 +16,12 @@
         <div style="width:70%; float:left;">
           <h2><b>{{pastTrip.tripName}}</b></h2>
           {{pastTrip.occasion}}
-          <br>{{pastTrip.date | date: longDate}}
+          <br>{{pastTrip.date[8]}}{{pastTrip.date[9]}}-{{pastTrip.date[5]}}{{pastTrip.date[6]}}-{{pastTrip.date[0]}}{{pastTrip.date[1]}}{{pastTrip.date[2]}}{{pastTrip.date[3]}}&nbsp&nbsp
+          {{pastTrip.date[11]}}{{pastTrip.date[12]}}:{{pastTrip.date[14]}}{{pastTrip.date[15]}}
           <br><br>Created By: {{pastTrip.createdBy}}
         </div>
 
-        <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(myTrip)">
+        <ion-delete-button class="ion-minus-circled" ng-click="onItemDelete(pastTrip)">
         </ion-delete-button>
 
       </ion-item>  

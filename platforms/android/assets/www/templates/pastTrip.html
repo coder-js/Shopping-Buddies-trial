@@ -4,18 +4,20 @@
           <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
         </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content class="has-header" has-header="true" padding="false">
-
-    <div style="width:65%; float:left;">
-        <h1 style="text-transform:uppercase;"><b><u>{{trip.tripName}}</u></b></h1>
-        <br>
-    	<h3><b>Bcuz: </b>{{trip.occasion}}
-        <br><b>Was On: </b>{{trip.date | date: 'MMM d, y &nbsp&nbsp h:mm a'}}
-        <br><b>Planned to go to: </b>{{trip.venues}}
-        <br><b>Duration: </b>{{trip.duration}}
-        <br><b>Met at: </b>{{trip.meetup}} ... Don't be late!!
-        <br><br><b>Trip Created By: </b>{{trip.createdBy}}</h3>
-    </div>
+  <ion-content class="has-header" has-header="true" padding="false" scroll="false">
+    <ion-scroll direction="xy" style="width:100%; height:90%;">
+      <div style="width:65%; float:left;">
+          <h1 style="text-transform:uppercase;"><b><u>{{trip.tripName}}</u></b></h1>
+          <br>
+      	<h3><b>Bcuz: </b>{{trip.occasion}}
+          <br><b>Was On: </b>{{trip.date[8]}}{{trip.date[9]}}-{{trip.date[5]}}{{trip.date[6]}}-{{trip.date[0]}}{{trip.date[1]}}{{trip.date[2]}}{{trip.date[3]}}&nbsp&nbsp
+          {{trip.date[11]}}{{trip.date[12]}}:{{trip.date[14]}}{{trip.date[15]}}
+          <br><b>Planned to go to: </b>{{trip.venues}}
+          <br><b>Duration: </b>{{trip.duration}}
+          <br><b>Met at: </b>{{trip.meetup}} ... Don't be late!!
+          <br><br><b>Trip Created By: </b>{{trip.createdBy}}</h3>
+      </div>
+    </ion-scroll>
   </ion-content>
 </ion-view>
 

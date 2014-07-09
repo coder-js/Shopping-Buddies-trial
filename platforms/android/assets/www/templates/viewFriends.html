@@ -9,17 +9,19 @@
         </ion-nav-buttons>
   </ion-nav-bar>
 
-   <ion-content class="has-header">
-    <ion-list>
-       <ion-item ng-repeat="viewFriend in trip.attendees | filter: {status:1} | orderBy:orderby">
+  <ion-content class="has-header" scroll="false">
+    <ion-scroll direction="xy" style="width:100%; height:90%;">
+      <ion-list>
+         <ion-item ng-repeat="viewFriend in trip.attendees | filter: {status:1} | orderBy:orderby">
 
-        <div class="item item-thumbnail-left">
-            <img src ="http://graph.facebook.com/{{viewFriend.fBId}}/picture?type=small" alt = "{{viewFriend.name}}">
-            <br><h2>{{viewFriend.name}}</h2>
-        </div>
+          <div class="item item-thumbnail-left">
+              <img src ="http://graph.facebook.com/{{viewFriend.fBId}}/picture?type=small" alt = "{{viewFriend.name}}">
+              <br><h2>{{viewFriend.name}}</h2>
+          </div>
 
-      </ion-item> 
-    </ion-list>
+        </ion-item> 
+      </ion-list>
+    <ion-scroll>
   </ion-content>
 </ion-view>
 

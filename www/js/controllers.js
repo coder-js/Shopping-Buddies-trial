@@ -88,10 +88,10 @@ angular.module('starter.controllers', ['ionic'])
       if($scope.findFriends[i].selected)
         friendList.push($scope.findFriends[i].id);
 
-      console.log(trip.trip_date);
-      console.log("date :"+trip.trip_date+" "+trip.trip_timing+":00");
+      console.log(trip);
+      //console.log(trip.trip_date.toString()+" "+trip.trip_timing.toString());
 
-    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing+":00"}}).
+    $http({method: 'POST', url:sharedProperties.getBaseUrl()+'/createTrip', data:{"userId":sharedProperties.getUserId(),"tripName":trip.trip_name,"occasion":trip.trip_occasion,"duration":trip.trip_duration,"meetup":trip.trip_meetup,"invitedfriends":friendList,"venues":trip.trip_venue,"date":trip.trip_date+" "+trip.trip_timing}}).
     success(function(data,status,headers,config){
       console.log("SUCCESS : "+angular.toJson(data));
       ActivityIndicator.hide();

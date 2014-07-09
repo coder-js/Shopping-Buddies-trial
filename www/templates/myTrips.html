@@ -16,7 +16,8 @@
         <div style="width:70%; float:left;">
           <h2><b>{{myTrip.tripName}}</b></h2>
           {{myTrip.occasion}}
-          <br>{{myTrip.date | date: 'MMM d, y &nbsp&nbsp h:mm a'}}
+          <br>{{myTrip.date[8]}}{{myTrip.date[9]}}-{{myTrip.date[5]}}{{myTrip.date[6]}}-{{myTrip.date[0]}}{{myTrip.date[1]}}{{myTrip.date[2]}}{{myTrip.date[3]}}&nbsp&nbsp
+          {{myTrip.date[11]}}{{myTrip.date[12]}}:{{myTrip.date[14]}}{{myTrip.date[15]}}
           <br><br>Created By: {{myTrip.createdBy}}
         </div>
 

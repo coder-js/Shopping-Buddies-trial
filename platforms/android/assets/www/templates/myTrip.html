@@ -4,34 +4,36 @@
           <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
         </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content class="has-header" has-header="true" padding="false">
-    
-    <div style="float:left; padding-left:10px; padding-top:5px;">
-        <h1 style="text-transform:uppercase;"><b><u>{{trip.tripName}}</u></b></h1>
-        <br>
-    	<h3><b>Bcuz: </b>{{trip.occasion}}
-        <br><b>On: </b>{{trip.date | date: 'MMM d, y &nbsp&nbsp h:mm a'}}
-        <br><b>We're going to: </b>{{trip.venues}}
-        <br><b>Duration: </b>{{trip.duration}}
-        <br><b>Meet up at: </b>{{trip.meetup}} <br>... Don't be late!!
-        <br>
-          <h3><b>Your Status: </b></h3>
-            <div ng-show="trip.status==1">
-              <i class="ion-checkmark-round" style="color:#19DA3D; font-size:20px;">Yes</i>
-            </div>
-            <div ng-show="trip.status==0">
-              <i class="ion-checkmark-round" style="color:#F00707; font-size:20px;">No</i>
-            </div>
-            <div ng-show="trip.status==2">
-              <i class="ion-checkmark-round" style="color:#FFCC00; font-size:20px;">Maybe</i>
-            </div>
+  <ion-content class="has-header" has-header="true" padding="false" scroll="false">
+    <ion-scroll direction="xy" style="width:100%; height:90%;">
+      <div style="float:left; padding-left:10px; padding-top:5px;">
+          <h1 style="text-transform:uppercase;"><b><u>{{trip.tripName}}</u></b></h1>
+          <br>
+      	<h3><b>Bcuz: </b>{{trip.occasion}}
+          <br><b>On: </b>{{trip.date[8]}}{{trip.date[9]}}-{{trip.date[5]}}{{trip.date[6]}}-{{trip.date[0]}}{{trip.date[1]}}{{trip.date[2]}}{{trip.date[3]}}&nbsp&nbsp
+          {{trip.date[11]}}{{trip.date[12]}}:{{trip.date[14]}}{{trip.date[15]}}
+          <br><b>We're going to: </b>{{trip.venues}}
+          <br><b>Duration: </b>{{trip.duration}}
+          <br><b>Meet up at: </b>{{trip.meetup}} <br>... Don't be late!!
+          <br>
+            <h3><b>Your Status: </b></h3>
+              <div ng-show="trip.status==1">
+                <i class="ion-checkmark-round" style="color:#19DA3D; font-size:20px;">Yes</i>
+              </div>
+              <div ng-show="trip.status==0">
+                <i class="ion-checkmark-round" style="color:#F00707; font-size:20px;">No</i>
+              </div>
+              <div ng-show="trip.status==2">
+                <i class="ion-checkmark-round" style="color:#FFCC00; font-size:20px;">Maybe</i>
+              </div>
 
-        <br><br><b>Trip Created By: </b>{{trip.createdBy}}</h3><br><br>
-        <div>
-          <button class="button button-balanced button-small" ng-click="openModal()">View friends attending the trip</button>
-        </div>
-    </div>
-
+          <br><br><b>Trip Created By: </b>{{trip.createdBy}}</h3><br><br>
+          <div>
+            <button class="button button-balanced button-small" ng-click="openModal()">View friends attending the trip</button>
+            <h1></h1>
+          </div>
+      </div>
+    </ion-scroll>
   </ion-content>
 </ion-view>
 

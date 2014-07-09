@@ -4,19 +4,21 @@
           <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
         </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content class="has-header">
-    <ion-list>
-      
-      <ion-item ng-repeat="findFriend in findFriends|orderBy:orderby">
+  <ion-content class="has-header" scroll="false">
+    <ion-scroll direction="xy" style="width:100%; height:90%;">
+      <ion-list>
+        
+        <ion-item ng-repeat="findFriend in findFriends|orderBy:orderby">
 
-        <div class="item item-thumbnail-left">
-            <img src ="http://graph.facebook.com/{{findFriend.id}}/picture?type=small" alt = "{{findFriend.name}}">
-            <br><h2>{{findFriend.name}}</h2>
-        </div>
+          <div class="item item-thumbnail-left">
+              <img src ="http://graph.facebook.com/{{findFriend.id}}/picture?type=small" alt = "{{findFriend.name}}">
+              <br><h2>{{findFriend.name}}</h2>
+          </div>
 
-      </ion-item> 
+        </ion-item> 
 
-    </ion-list>
+      </ion-list>
+    </ion-scroll>
   </ion-content>
 </ion-view>
 

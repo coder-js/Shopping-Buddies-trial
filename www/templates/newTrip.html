@@ -4,47 +4,49 @@
           <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
         </ion-nav-buttons>
   </ion-nav-bar>
-  <ion-content class="has-header">
-    <form>
-        <label class="item item-input">
-          <input type="text" placeholder="Event Name" ng-model="trip.trip_name" size="100">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Occasion" ng-model="trip.trip_occasion" size="100">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Venue" ng-model="trip.trip_venue" size="1000">
-        </label>
-        <label class="item item-input">
-          Date<input type="date" placeholder="Date" ng-model="trip.trip_date">
-        </label>
-        <label class="item item-input">
-          Time<input type="time" placeholder="Time" ng-model="trip.trip_timing">
-        </label>
-        <label class="item item-input">
-          <input type="text" placeholder="Meet up?" ng-model="trip.trip_meetup">
-        </label>
-        <div class="list">
-          <label class="item item-input item-select">
-            <div class="input-label">
-              Duration
-            </div>
-            <select ng-model="trip.trip_duration" ng-init="trip.trip_duration=3">
-              <option value="1">Half an hour</option>
-              <option value="2">One hour</option>
-              <option value="3">A few hours</option>
-              <option value="4">Who cares! It's shopping!</option>
-              <option value="5">Not sure</option>
-            </select>
+  <ion-content class="has-header" scroll="false">
+    <ion-scroll direction="xy" style="width:100%; height:90%;">
+      <form>
+          <label class="item item-input">
+            <input type="text" placeholder="Event Name" ng-model="trip.trip_name" size="100">
           </label>
-        </div>
-        <label>
-            <button class="button icon-right ion-chevron-right button-balanced button-block button-small" ng-click="openModal()">Add friends ({{(findFriends|filter:selected).length}})</button>
-        </label>
-        <label>
-            <button class="button button-block button-calm" ng-click="createTrip(trip)" >Submit</button
-        </label>
-    </form>
+          <label class="item item-input">
+            <input type="text" placeholder="Occasion" ng-model="trip.trip_occasion" size="100">
+          </label>
+          <label class="item item-input">
+            <input type="text" placeholder="Venue" ng-model="trip.trip_venue" size="1000">
+          </label>
+          <label class="item item-input">
+            Date<input type="date" placeholder="Date" ng-model="trip.trip_date">
+          </label>
+          <label class="item item-input">
+            Time<input type="time" placeholder="Time" ng-model="trip.trip_timing">
+          </label>
+          <label class="item item-input">
+            <input type="text" placeholder="Meet up?" ng-model="trip.trip_meetup">
+          </label>
+          <div class="list">
+            <label class="item item-input item-select">
+              <div class="input-label">
+                Duration
+              </div>
+              <select ng-model="trip.trip_duration" ng-init="trip.trip_duration=3">
+                <option value="1">Half an hour</option>
+                <option value="2">One hour</option>
+                <option value="3">A few hours</option>
+                <option value="4">Who cares! It's shopping!</option>
+                <option value="5">Not sure</option>
+              </select>
+            </label>
+          </div>
+          <label>
+              <button class="button icon-right ion-chevron-right button-balanced button-block button-small" ng-click="openModal()">Add friends ({{(findFriends|filter:selected).length}})</button>
+          </label>
+          <label>
+              <button class="button button-block button-calm" ng-click="createTrip(trip)" >Submit</button
+          </label>
+      </form>
+    </ion-scroll>
   </ion-content>
 </ion-view>
 
